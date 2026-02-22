@@ -1,0 +1,112 @@
+<html lang="en" class="scroll-smooth dark">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Resume | Ajit Patil</title>
+        <meta
+            name="description"
+            content="Ajit Patil's resume - Full Stack Developer and Product Engineer."
+        />
+        <meta name="robots" content="index, follow" />
+
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+
+        <script>
+            document.documentElement.classList.add('dark');
+        </script>
+        <script>
+            tailwind.config = {
+                darkMode: 'class',
+                theme: {
+                    extend: { fontFamily: { sans: ['Inter', 'sans-serif'] } },
+                },
+            };
+        </script>
+        <style>
+            body {
+                -webkit-font-smoothing: antialiased;
+            }
+            ::selection {
+                background-color: #e5e5e5;
+                color: #000;
+            }
+            .dark ::selection {
+                background-color: #333;
+                color: #fff;
+            }
+            .fade-in {
+                animation: fadeIn 0.8s ease-out forwards;
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            @keyframes fadeIn {
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        </style>
+    </head>
+    <body
+        class="bg-[#FAFAFA] dark:bg-[#111111] text-neutral-800 dark:text-neutral-300 antialiased transition-colors duration-300"
+    >
+        <main class="max-w-4xl mx-auto px-6 py-16 md:py-24">
+            <!-- Navigation -->
+            <nav class="mb-12 fade-in flex justify-between items-center">
+                <a
+                    href="index.html"
+                    class="text-sm text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors flex items-center gap-2"
+                >
+                    <i class="fa-solid fa-arrow-left text-xs"></i> Back to Home
+                </a>
+                <div class="flex items-center gap-4">
+                    <a
+                        href="Ajit-Patil-Resume-(2025).pdf"
+                        download
+                        class="text-sm text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors flex items-center gap-2"
+                    >
+                        <i class="fa-solid fa-download text-xs"></i> Download
+                        PDF
+                    </a>
+                </div>
+            </nav>
+
+            <!-- Header -->
+            <header class="mb-8 fade-in">
+                <h1
+                    class="text-2xl font-medium tracking-tight text-neutral-900 dark:text-neutral-100"
+                >
+                    Resume
+                </h1>
+            </header>
+
+            <!-- PDF Embed -->
+            <div
+                class="fade-in rounded-xl overflow-hidden border border-neutral-200 dark:border-neutral-800 shadow-sm"
+                style="animation-delay: 0.1s"
+            >
+                <iframe
+                    src="Ajit-Patil-Resume-(2025).pdf"
+                    class="w-full bg-white"
+                    style="height: 85vh; min-height: 600px"
+                    title="Ajit Patil Resume"
+                ></iframe>
+            </div>
+
+            <!-- Footer -->
+            <footer
+                class="mt-12 text-center text-xs text-neutral-400 dark:text-neutral-600"
+            >
+                &copy; 2026 Ajit Patil.
+            </footer>
+        </main>
+    </body>
+</html>

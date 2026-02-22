@@ -1,5 +1,4 @@
-<!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth dark">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -106,22 +105,17 @@
             href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
             rel="stylesheet"
         />
+
+        <script>
+            document.documentElement.classList.add('dark');
+        </script>
+
         <script>
             tailwind.config = {
+                darkMode: 'class',
                 theme: {
                     extend: {
                         fontFamily: { sans: ['Inter', 'sans-serif'] },
-                        typography: {
-                            DEFAULT: {
-                                css: {
-                                    color: '#333',
-                                    a: {
-                                        color: '#3182ce',
-                                        '&:hover': { color: '#2c5282' },
-                                    },
-                                },
-                            },
-                        },
                     },
                 },
             };
@@ -129,6 +123,14 @@
         <style>
             body {
                 -webkit-font-smoothing: antialiased;
+            }
+            ::selection {
+                background-color: #e5e5e5;
+                color: #000;
+            }
+            .dark ::selection {
+                background-color: #333;
+                color: #fff;
             }
             .prose p {
                 margin-bottom: 1.25em;
@@ -138,7 +140,6 @@
                 margin-top: 2em;
                 margin-bottom: 1em;
                 font-weight: 600;
-                color: #111;
                 font-size: 1.5rem;
             }
             .prose ul {
@@ -157,16 +158,29 @@
                     transform: translateY(0);
                 }
             }
+
+            .share-btn {
+                transition: all 0.2s ease;
+            }
+            .share-btn:hover {
+                transform: translateY(-1px);
+            }
         </style>
     </head>
     <body
-        class="bg-[#FAFAFA] text-neutral-800 antialiased selection:bg-neutral-200 selection:text-black"
+        class="bg-[#FAFAFA] dark:bg-[#111111] text-neutral-800 dark:text-neutral-300 antialiased transition-colors duration-300"
     >
         <main class="max-w-2xl mx-auto px-6 py-16 md:py-24">
-            <nav class="mb-12 fade-in">
+            <nav class="mb-12 fade-in flex justify-between items-center">
+                <a
+                    href="../index.html#projects"
+                    class="text-sm text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors flex items-center gap-2"
+                >
+                    Projects
+                </a>
                 <a
                     href="blog.html"
-                    class="text-sm text-neutral-500 hover:text-black transition-colors flex items-center gap-2"
+                    class="text-sm text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors flex items-center gap-2"
                 >
                     <i class="fa-solid fa-arrow-left text-xs"></i> Back to
                     Writing
@@ -175,19 +189,27 @@
 
             <header class="mb-10 fade-in delay-100">
                 <h1
-                    class="text-3xl md:text-4xl font-bold tracking-tight text-neutral-900 mb-4"
+                    class="text-3xl md:text-4xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 mb-4"
                 >
                     The Builder's Mindset: Why Side Projects Matter
                 </h1>
-                <div class="flex items-center gap-4 text-sm text-neutral-500">
+                <div
+                    class="flex items-center gap-4 text-sm text-neutral-500 dark:text-neutral-400"
+                >
                     <time datetime="2024-04-20">April 20, 2024</time>
-                    <span class="w-1 h-1 rounded-full bg-neutral-300"></span>
+                    <span
+                        class="w-1 h-1 rounded-full bg-neutral-300 dark:bg-neutral-600"
+                    ></span>
+                    <span>4 min read</span>
+                    <span
+                        class="w-1 h-1 rounded-full bg-neutral-300 dark:bg-neutral-600"
+                    ></span>
                     <span>Side Projects</span>
                 </div>
             </header>
 
             <article
-                class="prose prose-neutral max-w-none text-neutral-700 fade-in delay-200"
+                class="prose prose-neutral dark:prose-invert max-w-none text-neutral-700 dark:text-neutral-300 fade-in delay-200"
             >
                 <p>
                     "I'll build it once I learn X." "I need to master Docker
@@ -208,7 +230,9 @@
                     class="w-full rounded-lg my-8 grayscale hover:grayscale-0 transition-all duration-500"
                 />
 
-                <h2>Tutorial Hell vs. Production Hell</h2>
+                <h2 class="text-neutral-900 dark:text-neutral-100">
+                    Tutorial Hell vs. Production Hell
+                </h2>
                 <p>
                     Tutorials are safe. You type what the instructor types, and
                     it works. But you don't learn engineering in tutorials; you
@@ -222,29 +246,43 @@
                     ship to experience it.
                 </p>
 
-                <h2>Just Ship It</h2>
+                <h2 class="text-neutral-900 dark:text-neutral-100">
+                    Just Ship It
+                </h2>
                 <p>
                     When I built <em>TeacherOP</em>, the code wasn't pretty. I
-                    used a monolithic `index.js` file for way too long. But it
-                    worked. Users were using it.
+                    used a monolithic
+                    <code
+                        class="bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded text-sm"
+                        >index.js</code
+                    >
+                    file for way too long. But it worked. Users were using it.
                 </p>
-                <ul>
+                <ul class="text-neutral-600 dark:text-neutral-400">
                     <li>
-                        <strong>Start Small:</strong> Build a tiny feature that
-                        works.
+                        <strong class="text-neutral-800 dark:text-neutral-200"
+                            >Start Small:</strong
+                        >
+                        Build a tiny feature that works.
                     </li>
                     <li>
-                        <strong>Ignore Best Practices (Initially):</strong>
+                        <strong class="text-neutral-800 dark:text-neutral-200"
+                            >Ignore Best Practices (Initially):</strong
+                        >
                         Don't set up a K8s cluster for a todo app. A single VM
                         or Vercel deployment is fine.
                     </li>
                     <li>
-                        <strong>Iterate:</strong> Refactor only when the code
-                        becomes a bottleneck.
+                        <strong class="text-neutral-800 dark:text-neutral-200"
+                            >Iterate:</strong
+                        >
+                        Refactor only when the code becomes a bottleneck.
                     </li>
                 </ul>
 
-                <h2>The outcome</h2>
+                <h2 class="text-neutral-900 dark:text-neutral-100">
+                    The Outcome
+                </h2>
                 <p>
                     Side projects show potential employers that you have
                     <strong>agency</strong>. You don't wait to be told what to
@@ -253,14 +291,68 @@
                 </p>
             </article>
 
-            <footer
-                class="mt-20 pt-10 border-t border-neutral-200 text-sm text-neutral-500 flex justify-between"
+            <!-- Share Buttons -->
+            <div
+                class="mt-12 pt-8 border-t border-neutral-200 dark:border-neutral-800 fade-in"
             >
-                <a href="../index.html" class="hover:text-black">Ajit Patil</a>
-                <a href="blog-early-mistakes.html" class="hover:text-black"
-                    >Next Post: Mistakes Early Devs Make &rarr;</a
+                <p
+                    class="text-xs font-bold uppercase tracking-wider text-neutral-400 dark:text-neutral-500 mb-4"
+                >
+                    Share this article
+                </p>
+                <div class="flex gap-3">
+                    <button
+                        onclick="copyLink()"
+                        class="share-btn flex items-center gap-2 px-4 py-2 text-sm text-neutral-600 dark:text-neutral-400 bg-neutral-100 dark:bg-neutral-800 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
+                    >
+                        <i class="fa-solid fa-link text-xs"></i>
+                        <span id="copyText">Copy link</span>
+                    </button>
+                    <a
+                        href="https://twitter.com/intent/tweet?url=https://www.patilajit.work/blogs/blog-dev-mindset.html&text=The%20Builder's%20Mindset%3A%20Why%20Side%20Projects%20Matter%20by%20@AjitPatil09"
+                        target="_blank"
+                        class="share-btn flex items-center gap-2 px-4 py-2 text-sm text-neutral-600 dark:text-neutral-400 bg-neutral-100 dark:bg-neutral-800 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
+                    >
+                        <i class="fab fa-x-twitter text-xs"></i> Twitter
+                    </a>
+                    <a
+                        href="https://www.linkedin.com/sharing/share-offsite/?url=https://www.patilajit.work/blogs/blog-dev-mindset.html"
+                        target="_blank"
+                        class="share-btn flex items-center gap-2 px-4 py-2 text-sm text-neutral-600 dark:text-neutral-400 bg-neutral-100 dark:bg-neutral-800 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
+                    >
+                        <i class="fab fa-linkedin text-xs"></i> LinkedIn
+                    </a>
+                </div>
+            </div>
+
+            <!-- Post Navigation -->
+            <footer
+                class="mt-12 pt-10 border-t border-neutral-200 dark:border-neutral-800 text-sm text-neutral-500 dark:text-neutral-400 flex justify-between items-center"
+            >
+                <a
+                    href="blog-product-engineering.html"
+                    class="hover:text-black dark:hover:text-white transition-colors"
+                    >&larr; Prev: The Product Engineer</a
+                >
+                <a
+                    href="blog-early-mistakes.html"
+                    class="hover:text-black dark:hover:text-white transition-colors"
+                    >Next: Mistakes Early Devs Make &rarr;</a
                 >
             </footer>
         </main>
+
+        <script>
+            function copyLink() {
+                navigator.clipboard.writeText(window.location.href);
+                document.getElementById('copyText').textContent = 'Copied!';
+                setTimeout(
+                    () =>
+                        (document.getElementById('copyText').textContent =
+                            'Copy link'),
+                    2000,
+                );
+            }
+        </script>
     </body>
 </html>

@@ -1,5 +1,4 @@
-<!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth dark">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -104,22 +103,17 @@
             href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
             rel="stylesheet"
         />
+
+        <script>
+            document.documentElement.classList.add('dark');
+        </script>
+
         <script>
             tailwind.config = {
+                darkMode: 'class',
                 theme: {
                     extend: {
                         fontFamily: { sans: ['Inter', 'sans-serif'] },
-                        typography: {
-                            DEFAULT: {
-                                css: {
-                                    color: '#333',
-                                    a: {
-                                        color: '#3182ce',
-                                        '&:hover': { color: '#2c5282' },
-                                    },
-                                },
-                            },
-                        },
                     },
                 },
             };
@@ -127,6 +121,14 @@
         <style>
             body {
                 -webkit-font-smoothing: antialiased;
+            }
+            ::selection {
+                background-color: #e5e5e5;
+                color: #000;
+            }
+            .dark ::selection {
+                background-color: #333;
+                color: #fff;
             }
             .prose p {
                 margin-bottom: 1.25em;
@@ -136,14 +138,12 @@
                 margin-top: 2em;
                 margin-bottom: 1em;
                 font-weight: 600;
-                color: #111;
                 font-size: 1.5rem;
             }
             .prose h3 {
                 margin-top: 1.5em;
                 margin-bottom: 0.75em;
                 font-weight: 600;
-                color: #111;
                 font-size: 1.25rem;
             }
             .prose ul {
@@ -162,17 +162,30 @@
                     transform: translateY(0);
                 }
             }
+
+            .share-btn {
+                transition: all 0.2s ease;
+            }
+            .share-btn:hover {
+                transform: translateY(-1px);
+            }
         </style>
     </head>
     <body
-        class="bg-[#FAFAFA] text-neutral-800 antialiased selection:bg-neutral-200 selection:text-black"
+        class="bg-[#FAFAFA] dark:bg-[#111111] text-neutral-800 dark:text-neutral-300 antialiased transition-colors duration-300"
     >
         <main class="max-w-2xl mx-auto px-6 py-16 md:py-24">
             <!-- Navigation -->
-            <nav class="mb-12 fade-in">
+            <nav class="mb-12 fade-in flex justify-between items-center">
+                <a
+                    href="../index.html#projects"
+                    class="text-sm text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors flex items-center gap-2"
+                >
+                    Projects
+                </a>
                 <a
                     href="blog.html"
-                    class="text-sm text-neutral-500 hover:text-black transition-colors flex items-center gap-2"
+                    class="text-sm text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors flex items-center gap-2"
                 >
                     <i class="fa-solid fa-arrow-left text-xs"></i> Back to
                     Writing
@@ -182,20 +195,28 @@
             <!-- Article Header -->
             <header class="mb-10 fade-in delay-100">
                 <h1
-                    class="text-3xl md:text-4xl font-bold tracking-tight text-neutral-900 mb-4"
+                    class="text-3xl md:text-4xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 mb-4"
                 >
                     The Product Engineer: Beyond the Code
                 </h1>
-                <div class="flex items-center gap-4 text-sm text-neutral-500">
+                <div
+                    class="flex items-center gap-4 text-sm text-neutral-500 dark:text-neutral-400"
+                >
                     <time datetime="2024-05-12">May 12, 2024</time>
-                    <span class="w-1 h-1 rounded-full bg-neutral-300"></span>
+                    <span
+                        class="w-1 h-1 rounded-full bg-neutral-300 dark:bg-neutral-600"
+                    ></span>
+                    <span>5 min read</span>
+                    <span
+                        class="w-1 h-1 rounded-full bg-neutral-300 dark:bg-neutral-600"
+                    ></span>
                     <span>Product Engineering</span>
                 </div>
             </header>
 
             <!-- Content -->
             <article
-                class="prose prose-neutral max-w-none text-neutral-700 fade-in delay-200"
+                class="prose prose-neutral dark:prose-invert max-w-none text-neutral-700 dark:text-neutral-300 fade-in delay-200"
             >
                 <p>
                     In the modern tech landscape, the line between "Engineer"
@@ -217,43 +238,63 @@
                     class="w-full rounded-lg my-8 grayscale hover:grayscale-0 transition-all duration-500"
                 />
 
-                <h2>The Gap Between Code and Value</h2>
+                <h2 class="text-neutral-900 dark:text-neutral-100">
+                    The Gap Between Code and Value
+                </h2>
                 <p>
                     A "Code Monkey" takes a ticket and closes it. A Product
                     Engineer asks: "Does this actually help the user?"
                 </p>
                 <p>
-                    When I was building features for <em>Technosthala</em>, I
-                    realized that writing the cleanest React component didn't
-                    matter if the school administrators found the workflow
-                    confusing. I had to step out of VS Code and step into the
-                    shoes of a registrar managing fee collections.
+                    When I was building features for
+                    <a
+                        href="https://github.com/Ajitpatil92002"
+                        target="_blank"
+                        class="text-neutral-900 dark:text-neutral-100 underline underline-offset-2 hover:text-blue-700 dark:hover:text-blue-400 transition-colors"
+                        ><em>Technosthala</em></a
+                    >, I realized that writing the cleanest React component
+                    didn't matter if the school administrators found the
+                    workflow confusing. I had to step out of VS Code and step
+                    into the shoes of a registrar managing fee collections.
                 </p>
 
-                <h2>Characteristics of a Product Engineer</h2>
-                <ul>
+                <h2 class="text-neutral-900 dark:text-neutral-100">
+                    Characteristics of a Product Engineer
+                </h2>
+                <ul class="text-neutral-600 dark:text-neutral-400">
                     <li>
-                        <strong>User Empathy:</strong> You understand who uses
-                        your software and the pain points they face.
+                        <strong class="text-neutral-800 dark:text-neutral-200"
+                            >User Empathy:</strong
+                        >
+                        You understand who uses your software and the pain
+                        points they face.
                     </li>
                     <li>
-                        <strong>Trade-off Management:</strong> You know when to
-                        incur technical debt to ship faster and test a
-                        hypothesis.
+                        <strong class="text-neutral-800 dark:text-neutral-200"
+                            >Trade-off Management:</strong
+                        >
+                        You know when to incur technical debt to ship faster and
+                        test a hypothesis.
                     </li>
                     <li>
-                        <strong>Data-Driven:</strong> You don't just ship and
-                        forget; you look at analytics (PostHog, Mixpanel) to see
-                        if the feature is being used.
+                        <strong class="text-neutral-800 dark:text-neutral-200"
+                            >Data-Driven:</strong
+                        >
+                        You don't just ship and forget; you look at analytics
+                        (PostHog, Mixpanel) to see if the feature is being used.
                     </li>
                     <li>
-                        <strong>Communication:</strong> You can explain
-                        technical constraints to non-technical stakeholders
-                        without jargon.
+                        <strong class="text-neutral-800 dark:text-neutral-200"
+                            >Communication:</strong
+                        >
+                        You can explain technical constraints to non-technical
+                        stakeholders without jargon.
                     </li>
                 </ul>
 
-                <h2>Why It Matters</h2>
+                <h2 class="text-neutral-900 dark:text-neutral-100">
+                    Why It Matters
+                </h2>
                 <p>
                     Companies, especially startups, crave engineers who can
                     operate autonomously. If you can take a vague business
@@ -268,15 +309,68 @@
                 </p>
             </article>
 
-            <!-- Footer -->
-            <footer
-                class="mt-20 pt-10 border-t border-neutral-200 text-sm text-neutral-500 flex justify-between"
+            <!-- Share Buttons -->
+            <div
+                class="mt-12 pt-8 border-t border-neutral-200 dark:border-neutral-800 fade-in"
             >
-                <a href="../index.html" class="hover:text-black">Ajit Patil</a>
-                <a href="blog-dev-mindset.html" class="hover:text-black"
-                    >Next Post: The Builder's Mindset &rarr;</a
+                <p
+                    class="text-xs font-bold uppercase tracking-wider text-neutral-400 dark:text-neutral-500 mb-4"
+                >
+                    Share this article
+                </p>
+                <div class="flex gap-3">
+                    <button
+                        onclick="copyLink()"
+                        class="share-btn flex items-center gap-2 px-4 py-2 text-sm text-neutral-600 dark:text-neutral-400 bg-neutral-100 dark:bg-neutral-800 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
+                    >
+                        <i class="fa-solid fa-link text-xs"></i>
+                        <span id="copyText">Copy link</span>
+                    </button>
+                    <a
+                        href="https://twitter.com/intent/tweet?url=https://www.patilajit.work/blogs/blog-product-engineering.html&text=The%20Product%20Engineer%3A%20Beyond%20the%20Code%20by%20@AjitPatil09"
+                        target="_blank"
+                        class="share-btn flex items-center gap-2 px-4 py-2 text-sm text-neutral-600 dark:text-neutral-400 bg-neutral-100 dark:bg-neutral-800 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
+                    >
+                        <i class="fab fa-x-twitter text-xs"></i> Twitter
+                    </a>
+                    <a
+                        href="https://www.linkedin.com/sharing/share-offsite/?url=https://www.patilajit.work/blogs/blog-product-engineering.html"
+                        target="_blank"
+                        class="share-btn flex items-center gap-2 px-4 py-2 text-sm text-neutral-600 dark:text-neutral-400 bg-neutral-100 dark:bg-neutral-800 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
+                    >
+                        <i class="fab fa-linkedin text-xs"></i> LinkedIn
+                    </a>
+                </div>
+            </div>
+
+            <!-- Post Navigation -->
+            <footer
+                class="mt-12 pt-10 border-t border-neutral-200 dark:border-neutral-800 text-sm text-neutral-500 dark:text-neutral-400 flex justify-between items-center"
+            >
+                <a
+                    href="../index.html"
+                    class="hover:text-black dark:hover:text-white transition-colors"
+                    >Ajit Patil</a
+                >
+                <a
+                    href="blog-dev-mindset.html"
+                    class="hover:text-black dark:hover:text-white transition-colors"
+                    >Next: The Builder's Mindset &rarr;</a
                 >
             </footer>
         </main>
+
+        <script>
+            function copyLink() {
+                navigator.clipboard.writeText(window.location.href);
+                document.getElementById('copyText').textContent = 'Copied!';
+                setTimeout(
+                    () =>
+                        (document.getElementById('copyText').textContent =
+                            'Copy link'),
+                    2000,
+                );
+            }
+        </script>
     </body>
 </html>

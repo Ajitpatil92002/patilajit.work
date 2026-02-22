@@ -1,5 +1,4 @@
-<!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth dark">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -104,22 +103,17 @@
             href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
             rel="stylesheet"
         />
+
+        <script>
+            document.documentElement.classList.add('dark');
+        </script>
+
         <script>
             tailwind.config = {
+                darkMode: 'class',
                 theme: {
                     extend: {
                         fontFamily: { sans: ['Inter', 'sans-serif'] },
-                        typography: {
-                            DEFAULT: {
-                                css: {
-                                    color: '#333',
-                                    a: {
-                                        color: '#3182ce',
-                                        '&:hover': { color: '#2c5282' },
-                                    },
-                                },
-                            },
-                        },
                     },
                 },
             };
@@ -127,6 +121,14 @@
         <style>
             body {
                 -webkit-font-smoothing: antialiased;
+            }
+            ::selection {
+                background-color: #e5e5e5;
+                color: #000;
+            }
+            .dark ::selection {
+                background-color: #333;
+                color: #fff;
             }
             .prose p {
                 margin-bottom: 1.25em;
@@ -136,7 +138,6 @@
                 margin-top: 2em;
                 margin-bottom: 1em;
                 font-weight: 600;
-                color: #111;
                 font-size: 1.5rem;
             }
             .prose ul {
@@ -155,16 +156,29 @@
                     transform: translateY(0);
                 }
             }
+
+            .share-btn {
+                transition: all 0.2s ease;
+            }
+            .share-btn:hover {
+                transform: translateY(-1px);
+            }
         </style>
     </head>
     <body
-        class="bg-[#FAFAFA] text-neutral-800 antialiased selection:bg-neutral-200 selection:text-black"
+        class="bg-[#FAFAFA] dark:bg-[#111111] text-neutral-800 dark:text-neutral-300 antialiased transition-colors duration-300"
     >
         <main class="max-w-2xl mx-auto px-6 py-16 md:py-24">
-            <nav class="mb-12 fade-in">
+            <nav class="mb-12 fade-in flex justify-between items-center">
+                <a
+                    href="../index.html#projects"
+                    class="text-sm text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors flex items-center gap-2"
+                >
+                    Projects
+                </a>
                 <a
                     href="blog.html"
-                    class="text-sm text-neutral-500 hover:text-black transition-colors flex items-center gap-2"
+                    class="text-sm text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors flex items-center gap-2"
                 >
                     <i class="fa-solid fa-arrow-left text-xs"></i> Back to
                     Writing
@@ -173,19 +187,27 @@
 
             <header class="mb-10 fade-in delay-100">
                 <h1
-                    class="text-3xl md:text-4xl font-bold tracking-tight text-neutral-900 mb-4"
+                    class="text-3xl md:text-4xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 mb-4"
                 >
                     Common Mistakes Early Career Developers Make
                 </h1>
-                <div class="flex items-center gap-4 text-sm text-neutral-500">
+                <div
+                    class="flex items-center gap-4 text-sm text-neutral-500 dark:text-neutral-400"
+                >
                     <time datetime="2024-03-15">March 15, 2024</time>
-                    <span class="w-1 h-1 rounded-full bg-neutral-300"></span>
+                    <span
+                        class="w-1 h-1 rounded-full bg-neutral-300 dark:bg-neutral-600"
+                    ></span>
+                    <span>5 min read</span>
+                    <span
+                        class="w-1 h-1 rounded-full bg-neutral-300 dark:bg-neutral-600"
+                    ></span>
                     <span>Career Growth</span>
                 </div>
             </header>
 
             <article
-                class="prose prose-neutral max-w-none text-neutral-700 fade-in delay-200"
+                class="prose prose-neutral dark:prose-invert max-w-none text-neutral-700 dark:text-neutral-300 fade-in delay-200"
             >
                 <p>
                     We've all been there. You just graduated, or finished a
@@ -200,7 +222,9 @@
                     class="w-full rounded-lg my-8 grayscale hover:grayscale-0 transition-all duration-500"
                 />
 
-                <h2>1. The Fear of Asking Questions</h2>
+                <h2 class="text-neutral-900 dark:text-neutral-100">
+                    1. The Fear of Asking Questions
+                </h2>
                 <p>
                     Early devs often think asking questions makes them look
                     stupid. The reality is:
@@ -213,7 +237,9 @@
                     already tried. This shows initiative.
                 </p>
 
-                <h2>2. Over-Engineering (The "Perfect Code" Trap)</h2>
+                <h2 class="text-neutral-900 dark:text-neutral-100">
+                    2. Over-Engineering (The "Perfect Code" Trap)
+                </h2>
                 <p>
                     You learn about Design Patterns, SOLID principles, and
                     Microservices. Suddenly, a simple "Hello World" app has 5
@@ -225,13 +251,15 @@
                     Complexity should be introduced only when necessary.
                 </p>
 
-                <h2>3. Neglecting Soft Skills</h2>
+                <h2 class="text-neutral-900 dark:text-neutral-100">
+                    3. Neglecting Soft Skills
+                </h2>
                 <p>
                     You might be the best coder in the room, but if you can't
                     communicate your ideas, you won't get far. Software
                     engineering is a team sport.
                 </p>
-                <ul>
+                <ul class="text-neutral-600 dark:text-neutral-400">
                     <li>Learn to write good documentation.</li>
                     <li>
                         Learn to give and receive code review feedback
@@ -240,7 +268,9 @@
                     <li>Understand the business value of your work.</li>
                 </ul>
 
-                <h2>4. Not Reading the Error Message</h2>
+                <h2 class="text-neutral-900 dark:text-neutral-100">
+                    4. Not Reading the Error Message
+                </h2>
                 <p>
                     It sounds silly, but many fresh devs see a red wall of text
                     and immediately copy-paste it into Stack Overflow or
@@ -252,16 +282,83 @@
                     messages as hints rather than obstacles is a senior mindset
                     shift.
                 </p>
+
+                <h2 class="text-neutral-900 dark:text-neutral-100">
+                    The Takeaway
+                </h2>
+                <p>
+                    Every developer makes these mistakes—the key is recognizing
+                    them early and course-correcting. Be curious, stay humble,
+                    and remember that the best engineers aren't the ones who
+                    write the most clever code, but the ones who communicate
+                    clearly, learn fast, and ship consistently. Your early
+                    career is a foundation—build it on good habits, not just
+                    good syntax.
+                </p>
             </article>
 
-            <footer
-                class="mt-20 pt-10 border-t border-neutral-200 text-sm text-neutral-500 flex justify-between"
+            <!-- Share Buttons -->
+            <div
+                class="mt-12 pt-8 border-t border-neutral-200 dark:border-neutral-800 fade-in"
             >
-                <a href="../index.html" class="hover:text-black">Ajit Patil</a>
-                <a href="blog-product-engineering.html" class="hover:text-black"
-                    >Read: The Product Engineer &rarr;</a
+                <p
+                    class="text-xs font-bold uppercase tracking-wider text-neutral-400 dark:text-neutral-500 mb-4"
+                >
+                    Share this article
+                </p>
+                <div class="flex gap-3">
+                    <button
+                        onclick="copyLink()"
+                        class="share-btn flex items-center gap-2 px-4 py-2 text-sm text-neutral-600 dark:text-neutral-400 bg-neutral-100 dark:bg-neutral-800 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
+                    >
+                        <i class="fa-solid fa-link text-xs"></i>
+                        <span id="copyText">Copy link</span>
+                    </button>
+                    <a
+                        href="https://twitter.com/intent/tweet?url=https://www.patilajit.work/blogs/blog-early-mistakes.html&text=Common%20Mistakes%20Early%20Career%20Developers%20Make%20by%20@AjitPatil09"
+                        target="_blank"
+                        class="share-btn flex items-center gap-2 px-4 py-2 text-sm text-neutral-600 dark:text-neutral-400 bg-neutral-100 dark:bg-neutral-800 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
+                    >
+                        <i class="fab fa-x-twitter text-xs"></i> Twitter
+                    </a>
+                    <a
+                        href="https://www.linkedin.com/sharing/share-offsite/?url=https://www.patilajit.work/blogs/blog-early-mistakes.html"
+                        target="_blank"
+                        class="share-btn flex items-center gap-2 px-4 py-2 text-sm text-neutral-600 dark:text-neutral-400 bg-neutral-100 dark:bg-neutral-800 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
+                    >
+                        <i class="fab fa-linkedin text-xs"></i> LinkedIn
+                    </a>
+                </div>
+            </div>
+
+            <!-- Post Navigation -->
+            <footer
+                class="mt-12 pt-10 border-t border-neutral-200 dark:border-neutral-800 text-sm text-neutral-500 dark:text-neutral-400 flex justify-between items-center"
+            >
+                <a
+                    href="blog-dev-mindset.html"
+                    class="hover:text-black dark:hover:text-white transition-colors"
+                    >&larr; Prev: The Builder's Mindset</a
+                >
+                <a
+                    href="../index.html"
+                    class="hover:text-black dark:hover:text-white transition-colors"
+                    >Ajit Patil</a
                 >
             </footer>
         </main>
+
+        <script>
+            function copyLink() {
+                navigator.clipboard.writeText(window.location.href);
+                document.getElementById('copyText').textContent = 'Copied!';
+                setTimeout(
+                    () =>
+                        (document.getElementById('copyText').textContent =
+                            'Copy link'),
+                    2000,
+                );
+            }
+        </script>
     </body>
 </html>

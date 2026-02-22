@@ -1,0 +1,11 @@
+# robots.txt for patilajit.work
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://www.patilajit.work/sitemap.xml
+
+# Disallow specific paths if any (add as needed)
+# Disallow: /private/
+# Disallow: /admin/

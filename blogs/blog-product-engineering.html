@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <!-- SEO Meta Tags -->
+        <title>The Product Engineer: Beyond the Code | Ajit Patil</title>
+        <meta
+            name="description"
+            content="Why engineering is more than just writing code and how to think like a product owner. Learn about the rise of the Product Engineer who cares about both the 'why' and the 'how'."
+        />
+        <meta
+            name="keywords"
+            content="product engineer, software engineering, product development, user empathy, trade-off management, data-driven engineering, developer mindset"
+        />
+        <meta name="author" content="Ajit Patil" />
+        <meta name="robots" content="index, follow" />
+        <link
+            rel="canonical"
+            href="https://www.patilajit.work/blogs/blog-product-engineering.html"
+        />
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="article" />
+        <meta
+            property="og:url"
+            content="https://www.patilajit.work/blogs/blog-product-engineering.html"
+        />
+        <meta
+            property="og:title"
+            content="The Product Engineer: Beyond the Code | Ajit Patil"
+        />
+        <meta
+            property="og:description"
+            content="Why engineering is more than just writing code and how to think like a product owner. Learn about the rise of the Product Engineer."
+        />
+        <meta
+            property="og:image"
+            content="https://www.patilajit.work/blogs/images/blog-product-engineering.png"
+        />
+        <meta property="og:site_name" content="patilajit.work" />
+        <meta property="article:published_time" content="2024-05-12" />
+        <meta property="article:author" content="Ajit Patil" />
+
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+            name="twitter:url"
+            content="https://www.patilajit.work/blogs/blog-product-engineering.html"
+        />
+        <meta
+            name="twitter:title"
+            content="The Product Engineer: Beyond the Code | Ajit Patil"
+        />
+        <meta
+            name="twitter:description"
+            content="Why engineering is more than just writing code and how to think like a product owner."
+        />
+        <meta
+            name="twitter:image"
+            content="https://www.patilajit.work/blogs/images/blog-product-engineering.png"
+        />
+        <meta name="twitter:site" content="@AjitPatil09" />
+        <meta name="twitter:creator" content="@AjitPatil09" />
+        <meta name="twitter:label1" content="Written by" />
+        <meta name="twitter:data1" content="Ajit Patil" />
+        <meta name="twitter:label2" content="Reading time" />
+        <meta name="twitter:data2" content="5 min read" />
+
+        <!-- Structured Data (JSON-LD) - Article -->
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "Article",
+                "headline": "The Product Engineer: Beyond the Code",
+                "description": "Why engineering is more than just writing code and how to think like a product owner.",
+                "image": "https://www.patilajit.work/blogs/images/blog-product-engineering.png",
+                "author": {
+                    "@type": "Person",
+                    "name": "Ajit Patil",
+                    "url": "https://www.patilajit.work"
+                },
+                "datePublished": "2024-05-12",
+                "dateModified": "2024-05-12",
+                "publisher": {
+                    "@type": "Organization",
+                    "name": "patilajit.work",
+                    "url": "https://www.patilajit.work"
+                },
+                "mainEntityOfPage": {
+                    "@type": "WebPage",
+                    "@id": "https://www.patilajit.work/blogs/blog-product-engineering.html"
+                }
+            }
+        </script>
+
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+            rel="stylesheet"
+        />
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        fontFamily: { sans: ['Inter', 'sans-serif'] },
+                        typography: {
+                            DEFAULT: {
+                                css: {
+                                    color: '#333',
+                                    a: {
+                                        color: '#3182ce',
+                                        '&:hover': { color: '#2c5282' },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            };
+        </script>
+        <style>
+            body {
+                -webkit-font-smoothing: antialiased;
+            }
+            .prose p {
+                margin-bottom: 1.25em;
+                line-height: 1.75;
+            }
+            .prose h2 {
+                margin-top: 2em;
+                margin-bottom: 1em;
+                font-weight: 600;
+                color: #111;
+                font-size: 1.5rem;
+            }
+            .prose h3 {
+                margin-top: 1.5em;
+                margin-bottom: 0.75em;
+                font-weight: 600;
+                color: #111;
+                font-size: 1.25rem;
+            }
+            .prose ul {
+                list-style-type: disc;
+                padding-left: 1.5em;
+                margin-bottom: 1.25em;
+            }
+            .fade-in {
+                animation: fadeIn 0.8s ease-out forwards;
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            @keyframes fadeIn {
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        </style>
+    </head>
+    <body
+        class="bg-[#FAFAFA] text-neutral-800 antialiased selection:bg-neutral-200 selection:text-black"
+    >
+        <main class="max-w-2xl mx-auto px-6 py-16 md:py-24">
+            <!-- Navigation -->
+            <nav class="mb-12 fade-in">
+                <a
+                    href="blog.html"
+                    class="text-sm text-neutral-500 hover:text-black transition-colors flex items-center gap-2"
+                >
+                    <i class="fa-solid fa-arrow-left text-xs"></i> Back to
+                    Writing
+                </a>
+            </nav>
+
+            <!-- Article Header -->
+            <header class="mb-10 fade-in delay-100">
+                <h1
+                    class="text-3xl md:text-4xl font-bold tracking-tight text-neutral-900 mb-4"
+                >
+                    The Product Engineer: Beyond the Code
+                </h1>
+                <div class="flex items-center gap-4 text-sm text-neutral-500">
+                    <time datetime="2024-05-12">May 12, 2024</time>
+                    <span class="w-1 h-1 rounded-full bg-neutral-300"></span>
+                    <span>Product Engineering</span>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <article
+                class="prose prose-neutral max-w-none text-neutral-700 fade-in delay-200"
+            >
+                <p>
+                    In the modern tech landscape, the line between "Engineer"
+                    and "Product Manager" is blurring. We are seeing the rise of
+                    the <strong>Product Engineer</strong>—a developer who cares
+                    as much about the <em>why</em> as the <em>how</em>.
+                </p>
+                <p>
+                    For a long time, the software development lifecycle was a
+                    game of telephone. Product defines requirements, Design
+                    draws the UI, and Engineering builds it. This siloed
+                    approach often leads to features that work technically but
+                    fail to solve the user's actual problem.
+                </p>
+
+                <img
+                    src="images/blog-product-engineering.png"
+                    alt="Team Collaboration"
+                    class="w-full rounded-lg my-8 grayscale hover:grayscale-0 transition-all duration-500"
+                />
+
+                <h2>The Gap Between Code and Value</h2>
+                <p>
+                    A "Code Monkey" takes a ticket and closes it. A Product
+                    Engineer asks: "Does this actually help the user?"
+                </p>
+                <p>
+                    When I was building features for <em>Technosthala</em>, I
+                    realized that writing the cleanest React component didn't
+                    matter if the school administrators found the workflow
+                    confusing. I had to step out of VS Code and step into the
+                    shoes of a registrar managing fee collections.
+                </p>
+
+                <h2>Characteristics of a Product Engineer</h2>
+                <ul>
+                    <li>
+                        <strong>User Empathy:</strong> You understand who uses
+                        your software and the pain points they face.
+                    </li>
+                    <li>
+                        <strong>Trade-off Management:</strong> You know when to
+                        incur technical debt to ship faster and test a
+                        hypothesis.
+                    </li>
+                    <li>
+                        <strong>Data-Driven:</strong> You don't just ship and
+                        forget; you look at analytics (PostHog, Mixpanel) to see
+                        if the feature is being used.
+                    </li>
+                    <li>
+                        <strong>Communication:</strong> You can explain
+                        technical constraints to non-technical stakeholders
+                        without jargon.
+                    </li>
+                </ul>
+
+                <h2>Why It Matters</h2>
+                <p>
+                    Companies, especially startups, crave engineers who can
+                    operate autonomously. If you can take a vague business
+                    problem—"We need to increase user retention"—and translate
+                    that into a technical roadmap, you become indispensable.
+                </p>
+                <p>
+                    To transition into this mindset, start asking questions in
+                    your next sprint planning. Ask "Why are we building this?"
+                    and "How will we measure success?". The answers might
+                    surprise you.
+                </p>
+            </article>
+
+            <!-- Footer -->
+            <footer
+                class="mt-20 pt-10 border-t border-neutral-200 text-sm text-neutral-500 flex justify-between"
+            >
+                <a href="../index.html" class="hover:text-black">Ajit Patil</a>
+                <a href="blog-dev-mindset.html" class="hover:text-black"
+                    >Next Post: The Builder's Mindset &rarr;</a
+                >
+            </footer>
+        </main>
+    </body>
+</html>

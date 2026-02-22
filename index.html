@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajit Patil | Full Stack Developer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        neutral: {
+                            850: '#1f1f1f',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        /* Custom Selection Color */
+        ::selection {
+            background-color: #e5e5e5;
+            color: #000;
+        }
+        /* Fade in animation */
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        
+        /* Minimalist Link Hover */
+        .link-underline {
+            text-decoration: none;
+            position: relative;
+        }
+        .link-underline::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 1px;
+            bottom: 0;
+            left: 0;
+            background-color: currentColor;
+            transform-origin: bottom right;
+            transition: transform 0.25s ease-out;
+        }
+        .link-underline:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+    </style>
+</head>
+<body class="bg-[#FAFAFA] text-neutral-800 antialiased leading-relaxed selection:bg-neutral-200 selection:text-black">
+
+    <!-- Main Container: Narrow max-width for that "document/letter" feel -->
+    <main class="max-w-2xl mx-auto px-6 py-16 md:py-24">
+        
+        <!-- Header / Navigation -->
+        <header class="flex justify-between items-center mb-16 fade-in">
+            <a href="#" class="text-sm font-semibold tracking-wide uppercase text-neutral-500 hover:text-black transition-colors">
+                AP.
+            </a>
+            <nav class="flex gap-6 text-sm font-medium text-neutral-500">
+                <a href="#work" class="hover:text-black transition-colors">Work</a>
+                <a href="#skills" class="hover:text-black transition-colors">Skills</a>
+                <a href="blog.html" class="hover:text-black transition-colors">Writing</a>
+                <a href="#about" class="hover:text-black transition-colors">About</a>
+                <a href="#contact" class="hover:text-black transition-colors">Contact</a>
+            </nav>
+        </header>
+
+        <!-- Intro Section -->
+        <section class="mb-20 fade-in delay-100">
+            <div class="flex flex-col-reverse md:flex-row md:items-start justify-between gap-8">
+                <div>
+                    <h1 class="text-3xl md:text-3xl font-medium tracking-tight text-neutral-900 mb-6">
+                        Driving scalable platforms <br class="hidden md:block" /> with a data-driven approach.
+                    </h1>
+                    <p class="text-neutral-600 text-lg mb-6 max-w-md">
+                        Hi, I'm Ajit Patil. A Full Stack Developer turning ambiguity into shipped products through structured engineering and user-centric design.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 text-sm text-neutral-500">
+                        <span class="flex items-center gap-2">
+                            <i class="fa-solid fa-location-dot text-neutral-400"></i> Bangalore, India
+                        </span>
+                        <a href="https://www.patilajit.work/" target="_blank" class="flex items-center gap-2 hover:text-black transition-colors">
+                            <i class="fa-solid fa-globe text-neutral-400"></i> patilajit.work
+                        </a>
+                    </div>
+                </div>
+                <!-- Avatar -->
+                <div class="flex-shrink-0">
+                    <img src="https://avatars.githubusercontent.com/u/92046598?v=4" 
+                         alt="Ajit Patil" 
+                         class="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover grayscale opacity-90 hover:opacity-100 transition-opacity ring-1 ring-neutral-200">
+                </div>
+            </div>
+        </section>
+
+        <!-- Current Role / Status -->
+        <section class="mb-20 border-l-2 border-neutral-200 pl-6 py-1 fade-in delay-200">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-neutral-400 mb-2">Currently</h3>
+            <p class="text-neutral-800 font-medium">Product & Developer at <span class="text-black">CognifyPath</span></p>
+            <p class="text-neutral-500 text-sm mt-1">Automating infrastructure (Terraform/AWS) and building GenAI applications.</p>
+        </section>
+
+        <!-- Work Experience -->
+        <section id="work" class="mb-24 fade-in delay-300">
+            <h2 class="text-sm font-bold uppercase tracking-wider text-neutral-400 mb-8">Selected Experience</h2>
+            
+            <div class="space-y-12">
+                <!-- Role 1 -->
+                <article class="group">
+                    <div class="block">
+                        <div class="flex justify-between items-baseline mb-2">
+                            <h3 class="text-lg font-medium text-neutral-900">CognifyPath</h3>
+                            <span class="text-sm text-neutral-400 font-mono">Nov 2024 - Present</span>
+                        </div>
+                        <p class="text-neutral-500 text-sm mb-3">Product & Developer</p>
+                        <ul class="text-neutral-600 mb-4 text-sm leading-relaxed list-disc list-outside ml-4 space-y-1">
+                            <li>Authored Terraform IaC scripts for AWS, automating 100% of resource provisioning and cutting manual effort by ~80%.</li>
+                            <li>Deployed K3s clusters with Loki/Grafana observability, improving issue detection by ~60%.</li>
+                            <li>Managed 20+ VMs on VMware with Tailscale networking for secure, isolated test environments.</li>
+                            <li>Built Generative AI apps using OpenAI/Gemini APIs for internal automation.</li>
+                        </ul>
+                        <div class="flex gap-2 flex-wrap">
+                            <span class="text-xs bg-neutral-100 text-neutral-600 px-2 py-1 rounded">AWS</span>
+                            <span class="text-xs bg-neutral-100 text-neutral-600 px-2 py-1 rounded">Terraform</span>
+                            <span class="text-xs bg-neutral-100 text-neutral-600 px-2 py-1 rounded">GenAI</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Role 2 -->
+                <article class="group">
+                    <div class="block">
+                        <div class="flex justify-between items-baseline mb-2">
+                            <h3 class="text-lg font-medium text-neutral-900">Technosthala PVT LTD</h3>
+                            <span class="text-sm text-neutral-400 font-mono">Oct 2022 - Present</span>
+                        </div>
+                        <p class="text-neutral-500 text-sm mb-3">Product & Developer (Founder)</p>
+                        <ul class="text-neutral-600 mb-4 text-sm leading-relaxed list-disc list-outside ml-4 space-y-1">
+                            <li>Scaled a SaaS school management platform, securing 5+ schools and generating ₹8 lakhs+ in revenue.</li>
+                            <li>Led end-to-end product lifecycle: fee management, online exams, and attendance tracking.</li>
+                            <li>Automated reporting workflows, improving operational efficiency by 90%.</li>
+                        </ul>
+                        <div class="flex gap-2 flex-wrap">
+                            <span class="text-xs bg-neutral-100 text-neutral-600 px-2 py-1 rounded">SaaS</span>
+                            <span class="text-xs bg-neutral-100 text-neutral-600 px-2 py-1 rounded">Full Stack</span>
+                            <span class="text-xs bg-neutral-100 text-neutral-600 px-2 py-1 rounded">Product Leadership</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Role 3 -->
+                <article class="group">
+                    <div class="block">
+                        <div class="flex justify-between items-baseline mb-2">
+                            <h3 class="text-lg font-medium text-neutral-900">TeacherOP</h3>
+                            <span class="text-sm text-neutral-400 font-mono">Aug 2024 - Oct 2024</span>
+                        </div>
+                        <p class="text-neutral-500 text-sm mb-3">JS Full Stack Developer</p>
+                        <ul class="text-neutral-600 mb-4 text-sm leading-relaxed list-disc list-outside ml-4 space-y-1">
+                            <li>Designed and launched AI-powered course tools, growing the platform to 1,000+ users.</li>
+                            <li>Collaborated with cross-functional teams to develop scalable backend systems.</li>
+                        </ul>
+                        <div class="flex gap-2 flex-wrap">
+                            <span class="text-xs bg-neutral-100 text-neutral-600 px-2 py-1 rounded">React</span>
+                            <span class="text-xs bg-neutral-100 text-neutral-600 px-2 py-1 rounded">Node.js</span>
+                            <span class="text-xs bg-neutral-100 text-neutral-600 px-2 py-1 rounded">AI Integration</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="mb-24 fade-in delay-200">
+            <h2 class="text-sm font-bold uppercase tracking-wider text-neutral-400 mb-8">Technical Proficiency</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="font-medium text-neutral-900 mb-3">Frontend</h3>
+                    <p class="text-neutral-600 text-sm leading-relaxed">
+                        React.js, Next.js, TailwindCSS, Redux. Focused on intuitive, responsive user interfaces.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="font-medium text-neutral-900 mb-3">Backend & DevOps</h3>
+                    <p class="text-neutral-600 text-sm leading-relaxed">
+                        Node.js, Docker, Git, Terraform. Experience with OpenAI and Anthropic API integration.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="font-medium text-neutral-900 mb-3">Product</h3>
+                    <p class="text-neutral-600 text-sm leading-relaxed">
+                        Roadmapping, Data-Driven Decision Making, User Research, Feature Prioritization.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Writing / Blog Preview -->
+        <section id="writing" class="mb-24 fade-in delay-200">
+            <div class="flex justify-between items-baseline mb-8">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-neutral-400">Latest Writing</h2>
+                <a href="blog.html" class="text-sm text-neutral-500 hover:text-black transition-colors">View all</a>
+            </div>
+            
+            <div class="space-y-6">
+                <a href="blog-product-engineering.html" class="group block">
+                    <h3 class="text-lg font-medium text-neutral-900 group-hover:text-blue-700 transition-colors">The Product Engineer</h3>
+                    <p class="text-neutral-600 text-sm mt-1">Why engineering is more than just writing code and how to think like a product owner.</p>
+                </a>
+                <a href="blog-dev-mindset.html" class="group block">
+                    <h3 class="text-lg font-medium text-neutral-900 group-hover:text-blue-700 transition-colors">The Builder's Mindset</h3>
+                    <p class="text-neutral-600 text-sm mt-1">Shipping side projects, overcoming perfectionism, and learning by doing.</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- About / Why Hire Me -->
+        <section id="about" class="mb-24 fade-in delay-300">
+            <h2 class="text-sm font-bold uppercase tracking-wider text-neutral-400 mb-8">Why Hire Me?</h2>
+            
+            <div class="space-y-10">
+                <div class="flex flex-col gap-6">
+                    <div class="flex gap-4 items-start">
+                        <i class="fa-solid fa-check text-neutral-300 mt-1"></i>
+                        <div>
+                            <h3 class="text-neutral-900 font-medium">Impact-Driven Engineering</h3>
+                            <p class="text-neutral-600 text-sm mt-1">Proven ability to deliver impactful solutions by blending technical expertise with product vision.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 items-start">
+                        <i class="fa-solid fa-check text-neutral-300 mt-1"></i>
+                        <div>
+                            <h3 class="text-neutral-900 font-medium">High Ownership</h3>
+                            <p class="text-neutral-600 text-sm mt-1">I drive complex projects from ideation to execution, ensuring alignment across teams and stakeholders.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 items-start">
+                        <i class="fa-solid fa-check text-neutral-300 mt-1"></i>
+                        <div>
+                            <h3 class="text-neutral-900 font-medium">Mission Oriented</h3>
+                            <p class="text-neutral-600 text-sm mt-1">Driven by a mission to transform the education system. I love working on side projects and have shipped 4 of them.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact / Footer -->
+        <footer id="contact" class="pt-12 border-t border-neutral-200 fade-in delay-300">
+            <h2 class="text-xl font-medium text-neutral-900 mb-6">Let's connect.</h2>
+            <p class="text-neutral-600 mb-8 max-w-sm">
+                Open to discussing full-stack roles, product engineering, or new side projects.
+            </p>
+            
+            <div class="flex flex-col md:flex-row gap-8 md:items-center">
+                <a href="mailto:09ajitpatil@gmail.com" class="link-underline text-neutral-900 font-medium hover:text-black">
+                    09ajitpatil@gmail.com
+                </a>
+                <span class="text-neutral-400 hidden md:inline">/</span>
+                <span class="text-neutral-600 text-sm">+91 8971860300</span>
+                
+                <div class="flex gap-4 mt-4 md:mt-0">
+                    <a href="https://www.linkedin.com/in/09Ajitpatil" target="_blank" class="text-neutral-400 hover:text-blue-700 transition-colors text-lg" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://github.com/Ajitpatil92002" target="_blank" class="text-neutral-400 hover:text-black transition-colors text-lg" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://www.patilajit.work/" target="_blank" class="text-neutral-400 hover:text-blue-500 transition-colors text-lg" aria-label="Website">
+                        <i class="fas fa-globe"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="mt-16 text-xs text-neutral-400">
+                &copy; 2024 Ajit Patil. Built with clarity.
+            </div>
+        </footer>
+
+    </main>
+
+</body>
+</html>

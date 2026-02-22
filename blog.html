@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Writing | Ajit Patil</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        neutral: {
+                            850: '#1f1f1f',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        ::selection {
+            background-color: #e5e5e5;
+            color: #000;
+        }
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-[#FAFAFA] text-neutral-800 antialiased leading-relaxed selection:bg-neutral-200 selection:text-black">
+
+    <main class="max-w-2xl mx-auto px-6 py-16 md:py-24">
+        
+        <!-- Header -->
+        <header class="flex justify-between items-center mb-16 fade-in">
+            <a href="index.html" class="text-sm font-semibold tracking-wide uppercase text-neutral-500 hover:text-black transition-colors">
+                AP.
+            </a>
+            <nav class="flex gap-6 text-sm font-medium text-neutral-500">
+                <a href="index.html#work" class="hover:text-black transition-colors">Work</a>
+                <a href="index.html#skills" class="hover:text-black transition-colors">Skills</a>
+                <a href="blog.html" class="text-black transition-colors">Writing</a>
+                <a href="index.html#about" class="hover:text-black transition-colors">About</a>
+            </nav>
+        </header>
+
+        <!-- Page Title -->
+        <section class="mb-16 fade-in">
+            <h1 class="text-3xl font-medium tracking-tight text-neutral-900 mb-4">Writing</h1>
+            <p class="text-neutral-600">Thoughts on software engineering, product development, and the mistakes we make along the way.</p>
+        </section>
+
+        <!-- Blog List -->
+        <section class="space-y-12 fade-in" style="animation-delay: 0.1s;">
+            
+            <!-- Article 1 -->
+            <article class="group relative flex flex-col items-start">
+                <h2 class="text-lg font-semibold text-neutral-900">
+                    <div class="absolute -inset-y-4 -inset-x-6 z-0 scale-95 bg-neutral-100/50 opacity-0 transition group-hover:scale-100 group-hover:opacity-100 sm:-inset-x-6 sm:rounded-2xl"></div>
+                    <a href="blog-product-engineering.html" class="relative z-10">
+                        <span class="absolute -inset-y-6 -inset-x-4 z-20 sm:-inset-x-6 sm:rounded-2xl"></span>
+                        <span class="relative">The Product Engineer</span>
+                    </a>
+                </h2>
+                <time class="relative z-10 order-first mb-3 flex items-center text-sm text-neutral-400 pl-3.5" datetime="2024-05-12">
+                    <span class="absolute inset-y-0 left-0 flex items-center" aria-hidden="true">
+                        <span class="h-4 w-0.5 rounded-full bg-neutral-200"></span>
+                    </span>
+                    May 12, 2024
+                </time>
+                <p class="relative z-10 mt-2 text-sm text-neutral-600">
+                    Product Engineering is different from traditional software development. It's about empathy, business context, and solving the right problems, not just writing clean code.
+                </p>
+                <div aria-hidden="true" class="relative z-10 mt-4 flex items-center text-sm font-medium text-neutral-500">
+                    Read article <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                </div>
+            </article>
+
+            <!-- Article 2 -->
+            <article class="group relative flex flex-col items-start">
+                <h2 class="text-lg font-semibold text-neutral-900">
+                    <div class="absolute -inset-y-4 -inset-x-6 z-0 scale-95 bg-neutral-100/50 opacity-0 transition group-hover:scale-100 group-hover:opacity-100 sm:-inset-x-6 sm:rounded-2xl"></div>
+                    <a href="blog-dev-mindset.html" class="relative z-10">
+                        <span class="absolute -inset-y-6 -inset-x-4 z-20 sm:-inset-x-6 sm:rounded-2xl"></span>
+                        <span class="relative">The Builder's Mindset: Side Projects</span>
+                    </a>
+                </h2>
+                <time class="relative z-10 order-first mb-3 flex items-center text-sm text-neutral-400 pl-3.5" datetime="2024-04-20">
+                    <span class="absolute inset-y-0 left-0 flex items-center" aria-hidden="true">
+                        <span class="h-4 w-0.5 rounded-full bg-neutral-200"></span>
+                    </span>
+                    April 20, 2024
+                </time>
+                <p class="relative z-10 mt-2 text-sm text-neutral-600">
+                    Why shipping side projects is the best way to learn. Moving from "tutorial hell" to "production hell" is where the real growth happens.
+                </p>
+                <div aria-hidden="true" class="relative z-10 mt-4 flex items-center text-sm font-medium text-neutral-500">
+                    Read article <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                </div>
+            </article>
+
+            <!-- Article 3 -->
+            <article class="group relative flex flex-col items-start">
+                <h2 class="text-lg font-semibold text-neutral-900">
+                    <div class="absolute -inset-y-4 -inset-x-6 z-0 scale-95 bg-neutral-100/50 opacity-0 transition group-hover:scale-100 group-hover:opacity-100 sm:-inset-x-6 sm:rounded-2xl"></div>
+                    <a href="blog-early-mistakes.html" class="relative z-10">
+                        <span class="absolute -inset-y-6 -inset-x-4 z-20 sm:-inset-x-6 sm:rounded-2xl"></span>
+                        <span class="relative">Mistakes Early Developers Make</span>
+                    </a>
+                </h2>
+                <time class="relative z-10 order-first mb-3 flex items-center text-sm text-neutral-400 pl-3.5" datetime="2024-03-15">
+                    <span class="absolute inset-y-0 left-0 flex items-center" aria-hidden="true">
+                        <span class="h-4 w-0.5 rounded-full bg-neutral-200"></span>
+                    </span>
+                    March 15, 2024
+                </time>
+                <p class="relative z-10 mt-2 text-sm text-neutral-600">
+                    Reflecting on the common traps fresh engineers fall into: over-engineering, fear of asking questions, and ignoring the soft skills.
+                </p>
+                <div aria-hidden="true" class="relative z-10 mt-4 flex items-center text-sm font-medium text-neutral-500">
+                    Read article <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                </div>
+            </article>
+
+        </section>
+
+        <!-- Footer -->
+        <footer class="pt-12 border-t border-neutral-200 mt-24">
+            <div class="flex flex-col md:flex-row gap-8 md:items-center justify-between">
+                <div class="text-xs text-neutral-400">
+                    &copy; 2024 Ajit Patil.
+                </div>
+                <div class="flex gap-4">
+                    <a href="https://www.linkedin.com/in/09Ajitpatil" target="_blank" class="text-neutral-400 hover:text-blue-700 transition-colors">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://github.com/Ajitpatil92002" target="_blank" class="text-neutral-400 hover:text-black transition-colors">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://www.patilajit.work/" target="_blank" class="text-neutral-400 hover:text-blue-500 transition-colors">
+                        <i class="fas fa-globe"></i>
+                    </a>
+                </div>
+            </div>
+        </footer>
+
+    </main>
+
+</body>
+</html>

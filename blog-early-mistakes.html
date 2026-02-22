@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mistakes Early Devs Make | Ajit Patil</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    typography: {
+                        DEFAULT: {
+                            css: {
+                                color: '#333',
+                                a: { color: '#3182ce', '&:hover': { color: '#2c5282' } },
+                            },
+                        },
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        body { -webkit-font-smoothing: antialiased; }
+        .prose p { margin-bottom: 1.25em; line-height: 1.75; }
+        .prose h2 { margin-top: 2em; margin-bottom: 1em; font-weight: 600; color: #111; font-size: 1.5rem; }
+        .prose ul { list-style-type: disc; padding-left: 1.5em; margin-bottom: 1.25em; }
+        .fade-in { animation: fadeIn 0.8s ease-out forwards; opacity: 0; transform: translateY(10px); }
+        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-[#FAFAFA] text-neutral-800 antialiased selection:bg-neutral-200 selection:text-black">
+
+    <main class="max-w-2xl mx-auto px-6 py-16 md:py-24">
+        
+        <nav class="mb-12 fade-in">
+            <a href="blog.html" class="text-sm text-neutral-500 hover:text-black transition-colors flex items-center gap-2">
+                <i class="fa-solid fa-arrow-left text-xs"></i> Back to Writing
+            </a>
+        </nav>
+
+        <header class="mb-10 fade-in delay-100">
+            <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-neutral-900 mb-4">
+                Common Mistakes Early Career Developers Make
+            </h1>
+            <div class="flex items-center gap-4 text-sm text-neutral-500">
+                <time datetime="2024-03-15">March 15, 2024</time>
+                <span class="w-1 h-1 rounded-full bg-neutral-300"></span>
+                <span>Career Growth</span>
+            </div>
+        </header>
+
+        <article class="prose prose-neutral max-w-none text-neutral-700 fade-in delay-200">
+            <p>
+                We've all been there. You just graduated, or finished a bootcamp, and you're ready to take on the world. But enthusiasm often masks common pitfalls that can slow down your growth.
+            </p>
+
+            <img src="https://pollinations.ai/p/confused-developer-looking-at-multiple-monitors-minimalist-art" alt="Developer Confusion" class="w-full rounded-lg my-8 grayscale hover:grayscale-0 transition-all duration-500">
+
+            <h2>1. The Fear of Asking Questions</h2>
+            <p>
+                Early devs often think asking questions makes them look stupid. The reality is: <strong>staying stuck makes you look incompetent</strong>.
+            </p>
+            <p>
+                <strong>The Rule of 15 Minutes:</strong> Try to solve it yourself for 15 minutes. Read the docs, Google the error. If you're still stuck, ask. When you ask, explain what you've already tried. This shows initiative.
+            </p>
+
+            <h2>2. Over-Engineering (The "Perfect Code" Trap)</h2>
+            <p>
+                You learn about Design Patterns, SOLID principles, and Microservices. Suddenly, a simple "Hello World" app has 5 layers of abstraction. 
+            </p>
+            <p>
+                <strong>Solution:</strong> YAGNI (You Ain't Gonna Need It). Write code that is simple to read and easy to delete. Complexity should be introduced only when necessary.
+            </p>
+
+            <h2>3. Neglecting Soft Skills</h2>
+            <p>
+                You might be the best coder in the room, but if you can't communicate your ideas, you won't get far. Software engineering is a team sport.
+            </p>
+            <ul>
+                <li>Learn to write good documentation.</li>
+                <li>Learn to give and receive code review feedback gracefully.</li>
+                <li>Understand the business value of your work.</li>
+            </ul>
+
+            <h2>4. Not Reading the Error Message</h2>
+            <p>
+                It sounds silly, but many fresh devs see a red wall of text and immediately copy-paste it into Stack Overflow or ChatGPT. 
+            </p>
+            <p>
+                <strong>Read the stack trace.</strong> It usually tells you exactly line number and what went wrong. Treating error messages as hints rather than obstacles is a senior mindset shift.
+            </p>
+        </article>
+
+        <footer class="mt-20 pt-10 border-t border-neutral-200 text-sm text-neutral-500 flex justify-between">
+            <a href="index.html" class="hover:text-black">Ajit Patil</a>
+            <a href="blog-product-engineering.html" class="hover:text-black">Read: The Product Engineer &rarr;</a>
+        </footer>
+
+    </main>
+</body>
+</html>

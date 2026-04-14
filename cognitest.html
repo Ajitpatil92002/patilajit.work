@@ -1,0 +1,2152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CogniTest — Know Your Mind</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --bg: #050508;
+    --surface: #0d0d14;
+    --surface2: #16161f;
+    --border: #1e1e2e;
+    --accent: #7c6af7;
+    --accent2: #f7a26a;
+    --accent3: #6af7c8;
+    --text: #e8e8f0;
+    --muted: #6b6b8a;
+    --danger: #f76a6a;
+    --success: #6af7a2;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── UTILITY ── */
+  .hide { display: none !important; }
+  .mono { font-family: 'DM Mono', monospace; }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.35;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  /* ─────────────────────────────────────────────
+     LANDING PAGE
+  ───────────────────────────────────────────── */
+  #page-landing {
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  .nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 40px;
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(5,5,8,0.85);
+    backdrop-filter: blur(12px);
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px; font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--accent); }
+  .nav-cta {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    padding: 8px 18px;
+    background: var(--accent);
+    color: white;
+    border: none; border-radius: 6px;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.15s;
+    letter-spacing: 0.5px;
+  }
+  .nav-cta:hover { opacity: 0.85; transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    padding: 100px 40px 80px;
+    max-width: 900px; margin: 0 auto;
+    text-align: center;
+    position: relative;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; color: var(--accent3);
+    border: 1px solid rgba(106,247,200,0.25);
+    background: rgba(106,247,200,0.05);
+    padding: 6px 14px; border-radius: 20px;
+    margin-bottom: 32px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+  }
+  .hero-badge::before { content: '●'; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(42px, 7vw, 80px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -2px;
+    margin-bottom: 24px;
+  }
+  .hero h1 em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p {
+    font-size: 18px; line-height: 1.7;
+    color: var(--muted);
+    max-width: 560px; margin: 0 auto 48px;
+    font-weight: 300;
+  }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: 'Syne', sans-serif;
+    font-size: 16px; font-weight: 700;
+    padding: 16px 36px;
+    background: var(--accent);
+    color: white; border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 0 40px rgba(124,106,247,0.3);
+  }
+  .hero-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 60px rgba(124,106,247,0.5);
+  }
+  .hero-cta .arrow { transition: transform 0.2s; }
+  .hero-cta:hover .arrow { transform: translateX(4px); }
+
+  .hero-stats {
+    display: flex; justify-content: center; gap: 48px;
+    margin-top: 64px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 32px; font-weight: 800;
+    color: var(--text);
+  }
+  .stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+  /* GLOW ORBS */
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+  }
+  .orb1 { width: 400px; height: 400px; background: rgba(124,106,247,0.08); top: -100px; left: -100px; }
+  .orb2 { width: 300px; height: 300px; background: rgba(247,162,106,0.06); top: 100px; right: -50px; }
+
+  /* FEATURES */
+  .features {
+    padding: 80px 40px;
+    max-width: 1100px; margin: 0 auto;
+  }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px,4vw,44px);
+    font-weight: 800; letter-spacing: -1px;
+    margin-bottom: 48px;
+  }
+
+  .feat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .feat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative; overflow: hidden;
+  }
+  .feat-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+  .feat-icon {
+    width: 44px; height: 44px;
+    background: rgba(124,106,247,0.1);
+    border: 1px solid rgba(124,106,247,0.2);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; margin-bottom: 16px;
+  }
+  .feat-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px; font-weight: 700; margin-bottom: 8px;
+  }
+  .feat-card p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+  /* HOW IT WORKS */
+  .hiw {
+    padding: 80px 40px;
+    max-width: 900px; margin: 0 auto;
+    border-top: 1px solid var(--border);
+  }
+  .steps {
+    display: flex; flex-direction: column; gap: 0;
+    position: relative;
+  }
+  .steps::before {
+    content: '';
+    position: absolute; left: 23px; top: 44px; bottom: 44px;
+    width: 1px; background: var(--border);
+  }
+  .step {
+    display: flex; gap: 24px; align-items: flex-start;
+    padding: 24px 0;
+  }
+  .step-num {
+    width: 46px; height: 46px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px; color: var(--accent);
+    flex-shrink: 0; position: relative; z-index: 1;
+  }
+  .step-body h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px; font-weight: 700; margin-bottom: 6px;
+  }
+  .step-body p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+  /* SAMPLE INSIGHTS */
+  .insights {
+    padding: 80px 40px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+  }
+  .insights-inner { max-width: 900px; margin: 0 auto; }
+  .insight-preview {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 40px;
+  }
+  @media (max-width: 640px) { .insight-preview { grid-template-columns: 1fr; } }
+  .insight-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px; padding: 20px;
+  }
+  .insight-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 8px; border-radius: 4px;
+    display: inline-block; margin-bottom: 10px;
+  }
+  .tag-strength { background: rgba(106,247,162,0.1); color: var(--success); }
+  .tag-focus { background: rgba(124,106,247,0.1); color: var(--accent); }
+  .insight-card p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+  /* LANDING CTA BOTTOM */
+  .bottom-cta {
+    text-align: center;
+    padding: 80px 40px;
+    border-top: 1px solid var(--border);
+  }
+  .bottom-cta h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(24px,4vw,42px);
+    font-weight: 800; letter-spacing: -1px;
+    margin-bottom: 16px;
+  }
+  .bottom-cta p { color: var(--muted); margin-bottom: 32px; }
+
+  /* ─────────────────────────────────────────────
+     TEST ENGINE
+  ───────────────────────────────────────────── */
+  #page-test {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+  }
+
+  .test-header {
+    padding: 20px 40px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(5,5,8,0.9);
+    backdrop-filter: blur(12px);
+    position: sticky; top: 0; z-index: 10;
+  }
+  .test-section-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--accent);
+  }
+  .test-timer {
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    padding: 6px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--accent2);
+  }
+
+  /* PROGRESS BAR */
+  .test-progress {
+    height: 3px;
+    background: var(--border);
+    position: relative;
+  }
+  .test-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transition: width 0.4s ease;
+  }
+
+  /* SECTION PILLS */
+  .section-pills {
+    display: flex; gap: 8px;
+    padding: 20px 40px;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--border);
+  }
+  .pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; letter-spacing: 0.5px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .pill.active { background: rgba(124,106,247,0.15); border-color: var(--accent); color: var(--accent); }
+  .pill.done { background: rgba(106,247,162,0.1); border-color: rgba(106,247,162,0.3); color: var(--success); }
+
+  /* QUESTION AREA */
+  .question-area {
+    flex: 1;
+    display: flex; align-items: center; justify-content: center;
+    padding: 40px 24px;
+  }
+  .q-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 680px; width: 100%;
+    animation: fadeUp 0.3s ease;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .q-meta {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .q-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; color: var(--muted);
+  }
+  .q-points {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; color: var(--accent2);
+    padding: 3px 8px;
+    background: rgba(247,162,106,0.1);
+    border-radius: 4px;
+  }
+  .q-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px; font-weight: 700;
+    line-height: 1.4; margin-bottom: 12px;
+  }
+  .q-desc {
+    font-size: 14px; color: var(--muted); line-height: 1.6;
+    margin-bottom: 28px;
+  }
+
+  /* MCQ OPTIONS */
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option {
+    padding: 14px 18px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer; font-size: 15px;
+    transition: all 0.15s;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .option:hover { border-color: var(--accent); background: rgba(124,106,247,0.05); }
+  .option.selected { border-color: var(--accent); background: rgba(124,106,247,0.1); }
+  .option.correct { border-color: var(--success); background: rgba(106,247,162,0.1); }
+  .option.wrong { border-color: var(--danger); background: rgba(247,106,106,0.1); }
+  .opt-letter {
+    width: 26px; height: 26px;
+    background: var(--border);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; color: var(--muted);
+    flex-shrink: 0;
+  }
+
+  /* MEMORY SEQUENCE */
+  .seq-display {
+    display: flex; gap: 10px; justify-content: center;
+    flex-wrap: wrap; margin-bottom: 24px;
+  }
+  .seq-num {
+    width: 56px; height: 56px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 24px; font-weight: 800;
+    color: var(--accent);
+    transition: all 0.3s;
+  }
+  .seq-num.show { background: rgba(124,106,247,0.15); border-color: var(--accent); }
+  .seq-input {
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .number-input {
+    font-family: 'DM Mono', monospace;
+    font-size: 20px; font-weight: 500;
+    padding: 14px 18px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    text-align: center;
+    letter-spacing: 4px;
+    outline: none;
+    transition: border-color 0.15s;
+    width: 100%;
+  }
+  .number-input:focus { border-color: var(--accent); }
+
+  /* ATTENTION GRID */
+  .attn-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .attn-shape {
+    aspect-ratio: 1;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 22px;
+    border: 2px solid transparent;
+    transition: all 0.1s;
+    user-select: none;
+  }
+  .attn-shape:hover { border-color: rgba(255,255,255,0.2); transform: scale(1.05); }
+  .attn-shape.hit { border-color: var(--success); background: rgba(106,247,162,0.15) !important; }
+  .attn-shape.miss { border-color: var(--danger); animation: shake 0.3s; }
+  @keyframes shake {
+    0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)}
+  }
+
+  /* SPEED TEST */
+  .speed-box {
+    width: 100%; height: 180px;
+    border-radius: 14px;
+    border: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 20px; font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 16px;
+    user-select: none;
+  }
+  .speed-box.waiting { background: var(--surface2); color: var(--muted); }
+  .speed-box.go { background: rgba(106,247,162,0.15); border-color: var(--success); color: var(--success); }
+  .speed-box.too-early { background: rgba(247,106,106,0.15); border-color: var(--danger); color: var(--danger); }
+  .speed-result {
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px; color: var(--muted);
+  }
+
+  /* SUBMIT BUTTON */
+  .btn-primary {
+    width: 100%;
+    padding: 15px;
+    background: var(--accent);
+    color: white; border: none;
+    border-radius: 10px;
+    font-family: 'Syne', sans-serif;
+    font-size: 16px; font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 20px;
+  }
+  .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+  .btn-secondary {
+    padding: 10px 24px;
+    background: transparent;
+    color: var(--muted); border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--text); color: var(--text); }
+
+  /* COUNTDOWN */
+  .countdown-overlay {
+    position: fixed; inset: 0;
+    background: var(--bg);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    z-index: 1000;
+  }
+  .countdown-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 120px; font-weight: 800;
+    color: var(--accent);
+    animation: countAnim 0.8s ease;
+    line-height: 1;
+  }
+  @keyframes countAnim {
+    from { transform: scale(1.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  .countdown-label { font-size: 16px; color: var(--muted); margin-top: 16px; }
+
+  /* ─────────────────────────────────────────────
+     RESULTS DASHBOARD
+  ───────────────────────────────────────────── */
+  #page-results {
+    min-height: 100vh;
+    padding: 0 0 80px;
+  }
+  .results-header {
+    padding: 48px 40px 40px;
+    border-bottom: 1px solid var(--border);
+    position: relative; overflow: hidden;
+  }
+  .results-header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(124,106,247,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .results-header .section-label { margin-bottom: 8px; }
+  .score-hero {
+    display: flex; align-items: center; gap: 32px;
+    margin-top: 24px;
+  }
+  .score-ring {
+    flex-shrink: 0;
+    width: 120px; height: 120px;
+    position: relative;
+  }
+  .score-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .score-ring .ring-bg { fill: none; stroke: var(--border); stroke-width: 8; }
+  .score-ring .ring-fill {
+    fill: none; stroke: var(--accent);
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-dasharray: 314;
+    stroke-dashoffset: 314;
+    transition: stroke-dashoffset 1.5s ease;
+  }
+  .score-num-center {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+  }
+  .score-num-center .big {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px; font-weight: 800;
+  }
+  .score-num-center .small {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; color: var(--muted);
+  }
+  .score-meta h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(22px,4vw,38px);
+    font-weight: 800; letter-spacing: -1px;
+    margin-bottom: 8px;
+  }
+  .score-meta p { color: var(--muted); font-size: 15px; line-height: 1.6; max-width: 480px; }
+
+  .results-body {
+    max-width: 1100px; margin: 0 auto;
+    padding: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 768px) { .results-body { grid-template-columns: 1fr; } }
+
+  .result-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px; padding: 28px;
+  }
+  .result-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px; font-weight: 700;
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .result-card.full { grid-column: 1 / -1; }
+
+  /* BAR CHART */
+  .score-bars { display: flex; flex-direction: column; gap: 16px; }
+  .score-bar-row { display: flex; flex-direction: column; gap: 6px; }
+  .score-bar-label {
+    display: flex; justify-content: space-between;
+    font-size: 13px;
+  }
+  .score-bar-label .lbl { color: var(--muted); }
+  .score-bar-label .val {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px; color: var(--text);
+  }
+  .score-bar-track {
+    height: 8px;
+    background: var(--border);
+    border-radius: 4px; overflow: hidden;
+  }
+  .score-bar-fill {
+    height: 100%; border-radius: 4px;
+    transition: width 1s ease;
+    width: 0;
+  }
+
+  /* INSIGHTS */
+  .insight-chips { display: flex; flex-direction: column; gap: 10px; }
+  .insight-chip {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 13px; line-height: 1.5;
+  }
+  .chip-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  /* LEARNING STYLE */
+  .style-badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-family: 'Syne', sans-serif;
+    font-size: 18px; font-weight: 800;
+    margin-bottom: 12px;
+  }
+  .style-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+  /* ─────────────────────────────────────────────
+     30-DAY PLAN
+  ───────────────────────────────────────────── */
+  #page-plan {
+    min-height: 100vh;
+    padding-bottom: 80px;
+  }
+  .plan-header {
+    padding: 48px 40px 40px;
+    border-bottom: 1px solid var(--border);
+  }
+  .plan-body {
+    max-width: 900px; margin: 0 auto;
+    padding: 40px;
+  }
+  .plan-week {
+    margin-bottom: 40px;
+  }
+  .week-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px; font-weight: 800;
+    margin-bottom: 6px;
+  }
+  .week-subtitle { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+  .plan-days { display: flex; flex-direction: column; gap: 8px; }
+  .plan-day {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .plan-day:hover { border-color: var(--accent); }
+  .plan-day.completed {
+    border-color: rgba(106,247,162,0.3);
+    background: rgba(106,247,162,0.05);
+  }
+  .day-check {
+    width: 22px; height: 22px;
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+    font-size: 11px;
+  }
+  .plan-day.completed .day-check {
+    background: var(--success);
+    border-color: var(--success);
+    color: var(--bg);
+  }
+  .day-info { flex: 1; }
+  .day-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; color: var(--muted); margin-bottom: 2px;
+  }
+  .day-task { font-size: 14px; font-weight: 500; }
+  .day-time {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; color: var(--accent2);
+  }
+
+  /* PLAN PROGRESS */
+  .plan-progress-bar {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px; padding: 24px;
+    margin-bottom: 32px;
+    display: flex; gap: 24px; align-items: center;
+  }
+  .pbar-info { flex: 1; }
+  .pbar-info h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px; font-weight: 700; margin-bottom: 10px;
+  }
+  .pbar-track {
+    height: 6px; background: var(--border); border-radius: 3px; overflow: hidden;
+  }
+  .pbar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--success));
+    border-radius: 3px;
+    transition: width 0.5s ease;
+  }
+  .pbar-stat {
+    text-align: right;
+  }
+  .pbar-stat .big {
+    font-family: 'Syne', sans-serif;
+    font-size: 32px; font-weight: 800; color: var(--accent);
+  }
+  .pbar-stat .small { font-size: 12px; color: var(--muted); }
+
+  /* STREAK */
+  .streak-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 16px;
+    background: rgba(247,162,106,0.1);
+    border: 1px solid rgba(247,162,106,0.25);
+    border-radius: 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px; color: var(--accent2);
+    margin-bottom: 28px;
+  }
+
+  /* TAB BAR */
+  .tab-bar {
+    display: flex; gap: 0;
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    background: rgba(5,5,8,0.9);
+    backdrop-filter: blur(12px);
+    position: sticky; top: 0; z-index: 10;
+  }
+  .tab {
+    padding: 16px 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px; letter-spacing: 0.5px;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* LOADING */
+  .loading-screen {
+    position: fixed; inset: 0;
+    background: var(--bg);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    z-index: 2000;
+  }
+  .loader-ring {
+    width: 60px; height: 60px;
+    border: 3px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-bottom: 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px; color: var(--muted);
+    letter-spacing: 1px;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    .nav, .hero, .features, .hiw, .test-header, .section-pills,
+    .results-body, .plan-body { padding-left: 20px; padding-right: 20px; }
+    .hero-stats { gap: 24px; }
+    .attn-grid { grid-template-columns: repeat(4, 1fr); }
+    .score-hero { flex-direction: column; text-align: center; }
+    .tab-bar { padding: 0 20px; overflow-x: auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════
+     LOADING SCREEN
+═══════════════════════════════════════════════ -->
+<div class="loading-screen" id="loading-screen">
+  <div class="loader-ring"></div>
+  <div class="loading-text">INITIALISING COGNITEST</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     LANDING PAGE
+═══════════════════════════════════════════════ -->
+<div id="page-landing">
+  <nav class="nav">
+    <div class="logo">Cogni<span>Test</span></div>
+    <button class="nav-cta" onclick="startTest()">Begin Assessment</button>
+  </nav>
+
+  <section class="hero" style="position:relative">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="hero-badge">Free · 10–15 Minutes · Instant Results</div>
+    <h1>Discover How Your<br><em>Mind Works</em></h1>
+    <p>A science-backed cognitive assessment that maps your mental strengths — then builds a personalised 30-day training plan.</p>
+    <button class="hero-cta" onclick="startTest()">
+      Start Free Cognitive Test
+      <span class="arrow">→</span>
+    </button>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">5</div>
+        <div class="stat-label">Cognitive Domains</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">30</div>
+        <div class="stat-label">Day Training Plan</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">~12</div>
+        <div class="stat-label">Minutes</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="section-label">// What you'll learn</div>
+    <h2 class="section-title">Five domains.<br>One complete picture.</h2>
+    <div class="feat-grid">
+      <div class="feat-card">
+        <div class="feat-icon">🧠</div>
+        <h3>Working Memory</h3>
+        <p>How well you retain and manipulate information in the short-term. Critical for learning and complex problem-solving.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🎯</div>
+        <h3>Sustained Attention</h3>
+        <p>Your ability to focus under distraction and stay on-task. A key predictor of real-world productivity.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🔗</div>
+        <h3>Logical Reasoning</h3>
+        <p>Pattern recognition and abstract thinking. How you tackle novel problems with limited information.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">⚡</div>
+        <h3>Processing Speed</h3>
+        <p>Raw neural response time. Influences how quickly you absorb and react to new information.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🎨</div>
+        <h3>Learning Style</h3>
+        <p>Whether you process information better visually or textually — shaping your optimal study strategy.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="hiw">
+    <div class="section-label">// How it works</div>
+    <h2 class="section-title">Three steps to clarity.</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-body">
+          <h3>Take the Assessment</h3>
+          <p>Complete 5 interactive sections covering memory, attention, logic, speed, and learning style. Each task is carefully timed.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-body">
+          <h3>Receive Your Cognitive Profile</h3>
+          <p>Instantly see your scores across all domains with a detailed breakdown of strengths and areas for growth.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-body">
+          <h3>Follow Your Personalised Plan</h3>
+          <p>Get a 30-day daily training plan targeting your weakest area. 10–15 minutes a day, measurable progress.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="insights">
+    <div class="insights-inner">
+      <div class="section-label">// Sample insights</div>
+      <h2 class="section-title">What you might discover.</h2>
+      <div class="insight-preview">
+        <div class="insight-card">
+          <span class="insight-tag tag-strength">Strength</span>
+          <p>Your processing speed is in the top 20% — you absorb and respond to information significantly faster than average.</p>
+        </div>
+        <div class="insight-card">
+          <span class="insight-tag tag-focus">Focus Area</span>
+          <p>Working memory scores suggest difficulty retaining more than 5–6 items simultaneously, affecting multitasking performance.</p>
+        </div>
+        <div class="insight-card">
+          <span class="insight-tag tag-strength">Style Detected</span>
+          <p>You're a visual-dominant learner — diagrams, charts, and spatial layouts help you retain information 40% more effectively.</p>
+        </div>
+        <div class="insight-card">
+          <span class="insight-tag tag-focus">Growth Opportunity</span>
+          <p>Your logic scores indicate strong sequential reasoning but weaker abstract pattern recognition — a trainable skill.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bottom-cta">
+    <h2>Ready to map your mind?</h2>
+    <p>No signup required. Results in 15 minutes. Free forever.</p>
+    <button class="hero-cta" onclick="startTest()">
+      Start Free Test Now <span class="arrow">→</span>
+    </button>
+  </section>
+</div>
+
+<!-- ════════════════════════════════════════════
+     TEST ENGINE
+═══════════════════════════════════════════════ -->
+<div id="page-test" class="hide">
+  <div class="test-progress">
+    <div class="test-progress-fill" id="test-progress-fill"></div>
+  </div>
+  <div class="test-header">
+    <div>
+      <div class="test-section-name" id="test-section-name">—</div>
+    </div>
+    <div class="test-timer" id="test-timer">—:——</div>
+  </div>
+  <div class="section-pills" id="section-pills">
+    <div class="pill active" data-s="0">Memory</div>
+    <div class="pill" data-s="1">Attention</div>
+    <div class="pill" data-s="2">Logic</div>
+    <div class="pill" data-s="3">Speed</div>
+    <div class="pill" data-s="4">Learning Style</div>
+  </div>
+  <div class="question-area">
+    <div class="q-card" id="q-card">
+      <!-- Dynamic content here -->
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     RESULTS
+═══════════════════════════════════════════════ -->
+<div id="page-results" class="hide">
+  <div class="tab-bar">
+    <div class="tab active" onclick="showTab('results')">Results</div>
+    <div class="tab" onclick="showTab('plan')">30-Day Plan</div>
+  </div>
+
+  <div id="tab-results">
+    <div class="results-header">
+      <div class="section-label">// Assessment complete</div>
+      <div class="score-hero">
+        <div class="score-ring">
+          <svg viewBox="0 0 120 120">
+            <circle class="ring-bg" cx="60" cy="60" r="50"/>
+            <circle class="ring-fill" id="ring-fill" cx="60" cy="60" r="50"/>
+          </svg>
+          <div class="score-num-center">
+            <div class="big" id="overall-score-num">—</div>
+            <div class="small">/ 100</div>
+          </div>
+        </div>
+        <div class="score-meta">
+          <h1 id="score-headline">Cognitive Profile</h1>
+          <p id="score-subline">Your detailed cognitive assessment results are ready.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="results-body">
+      <!-- Section Scores -->
+      <div class="result-card">
+        <h3>📊 Section Scores</h3>
+        <div class="score-bars" id="score-bars"></div>
+      </div>
+
+      <!-- Insights -->
+      <div class="result-card">
+        <h3>💡 Cognitive Insights</h3>
+        <div class="insight-chips" id="insight-chips"></div>
+      </div>
+
+      <!-- Learning Style -->
+      <div class="result-card">
+        <h3>🎨 Learning Style</h3>
+        <div id="learning-style-section"></div>
+      </div>
+
+      <!-- Strengths & Weaknesses -->
+      <div class="result-card">
+        <h3>⚡ Strengths & Growth Areas</h3>
+        <div id="sw-section"></div>
+      </div>
+
+      <!-- CTA -->
+      <div class="result-card full" style="text-align:center; padding: 40px;">
+        <h3 style="justify-content:center; font-size:20px; margin-bottom:12px;">View Your 30-Day Training Plan</h3>
+        <p style="color:var(--muted); font-size:14px; margin-bottom:24px;">Personalised daily tasks targeting your weakest cognitive area.</p>
+        <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+          <button class="hero-cta" onclick="showTab('plan')" style="font-size:15px; padding:14px 32px;">
+            See My Plan →
+          </button>
+          <button class="btn-secondary" onclick="retakeTest()">Retake Test</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab-plan" class="hide">
+    <div class="plan-body">
+      <div id="streak-area"></div>
+      <div class="plan-progress-bar">
+        <div class="pbar-info">
+          <h3>30-Day Cognitive Training</h3>
+          <div class="pbar-track">
+            <div class="pbar-fill" id="pbar-fill"></div>
+          </div>
+          <div style="font-size:12px; color:var(--muted); margin-top:6px;" id="pbar-label">0 of 30 days completed</div>
+        </div>
+        <div class="pbar-stat">
+          <div class="big" id="pbar-pct">0%</div>
+          <div class="small">complete</div>
+        </div>
+      </div>
+      <div id="plan-weeks"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+// GLOBAL STATE
+// ══════════════════════════════════════════════
+const state = {
+  memoryScore: 0,
+  attentionScore: 0,
+  logicScore: 0,
+  speedScore: 0,
+  learningStyleScore: { visual: 0, text: 0 },
+  learningStyle: 'balanced',
+  totalTime: 0,
+  currentSection: 0,
+  currentQuestion: 0,
+  totalQuestions: 0,
+  timerInterval: null,
+  questionStart: 0,
+  testStartTime: 0,
+};
+
+// ══════════════════════════════════════════════
+// TEST DATA
+// ══════════════════════════════════════════════
+const SECTIONS = [
+  { id: 'memory',    name: 'Memory',          icon: '🧠' },
+  { id: 'attention', name: 'Attention',        icon: '🎯' },
+  { id: 'logic',     name: 'Logical Reasoning',icon: '🔗' },
+  { id: 'speed',     name: 'Processing Speed', icon: '⚡' },
+  { id: 'learning',  name: 'Learning Style',   icon: '🎨' },
+];
+
+const MEMORY_SEQUENCES = [
+  [3, 7, 2],
+  [8, 1, 5, 4],
+  [2, 9, 6, 3, 7],
+];
+
+const LOGIC_QUESTIONS = [
+  {
+    q: "What comes next in the sequence: 2, 4, 8, 16, __?",
+    options: ["24", "32", "28", "20"],
+    answer: 1,
+  },
+  {
+    q: "Which number doesn't belong: 3, 6, 9, 14, 15?",
+    options: ["6", "9", "14", "15"],
+    answer: 2,
+  },
+  {
+    q: "If all Bloops are Razzies and all Razzies are Lazzies, are all Bloops Lazzies?",
+    options: ["Yes", "No", "Cannot determine", "Only some"],
+    answer: 0,
+  },
+  {
+    q: "Complete the series: 1, 1, 2, 3, 5, 8, __?",
+    options: ["11", "12", "13", "15"],
+    answer: 2,
+  },
+];
+
+const LEARNING_QUESTIONS = [
+  {
+    visual: "🔵🔴🟡🔵🔴 — What's the 6th shape?",
+    text: "In a pattern: Blue, Red, Yellow, Blue, Red… what comes 6th?",
+    answer: "Yellow",
+    options: ["🔵 Blue", "🔴 Red", "🟡 Yellow", "🟢 Green"],
+    answerIdx: 2,
+  },
+  {
+    visual: "📊 A bar chart shows values 40, 80, 60. Which is tallest?",
+    text: "Three values: forty, eighty, sixty. Which is the largest?",
+    answer: "80",
+    options: ["40", "80", "60", "All equal"],
+    answerIdx: 1,
+  },
+];
+
+// ══════════════════════════════════════════════
+// PAGE NAVIGATION
+// ══════════════════════════════════════════════
+function showPage(id) {
+  ['page-landing','page-test','page-results'].forEach(p => {
+    document.getElementById(p).classList.toggle('hide', p !== id);
+  });
+  window.scrollTo(0,0);
+}
+
+function showTab(name) {
+  document.getElementById('tab-results').classList.toggle('hide', name !== 'results');
+  document.getElementById('tab-plan').classList.toggle('hide', name !== 'plan');
+  document.querySelectorAll('.tab').forEach(t => {
+    t.classList.toggle('active', t.textContent.toLowerCase().includes(name.split('-')[0]));
+  });
+  if (name === 'plan') renderPlan();
+}
+
+// ══════════════════════════════════════════════
+// START TEST
+// ══════════════════════════════════════════════
+function startTest() {
+  Object.assign(state, {
+    memoryScore: 0, attentionScore: 0, logicScore: 0,
+    speedScore: 0, learningStyleScore: { visual: 0, text: 0 },
+    currentSection: 0, currentQuestion: 0,
+    testStartTime: Date.now(),
+  });
+  showPage('page-test');
+  launchSection(0);
+}
+
+function retakeTest() {
+  if (!confirm('Start over? Your current results will be replaced.')) return;
+  startTest();
+}
+
+// ══════════════════════════════════════════════
+// SECTION LAUNCHER
+// ══════════════════════════════════════════════
+function launchSection(sectionIdx) {
+  state.currentSection = sectionIdx;
+  state.currentQuestion = 0;
+
+  // Update pills
+  document.querySelectorAll('.pill').forEach((p, i) => {
+    p.classList.toggle('active', i === sectionIdx);
+    if (i < sectionIdx) p.classList.add('done');
+  });
+  document.getElementById('test-section-name').textContent = SECTIONS[sectionIdx].name;
+
+  // Show countdown
+  showCountdown(() => {
+    renderQuestion(sectionIdx, 0);
+  });
+}
+
+function showCountdown(cb) {
+  const overlay = document.createElement('div');
+  overlay.className = 'countdown-overlay';
+  overlay.innerHTML = `<div class="countdown-num" id="cd-num">3</div>
+    <div class="countdown-label">Get ready…</div>`;
+  document.body.appendChild(overlay);
+  let n = 3;
+  const tick = () => {
+    const el = overlay.querySelector('#cd-num');
+    el.style.animation = 'none';
+    void el.offsetWidth;
+    el.style.animation = 'countAnim 0.8s ease';
+    if (n > 0) {
+      el.textContent = n--;
+      setTimeout(tick, 900);
+    } else {
+      el.textContent = 'GO!';
+      el.style.color = 'var(--accent3)';
+      setTimeout(() => { overlay.remove(); cb(); }, 700);
+    }
+  };
+  tick();
+}
+
+// ══════════════════════════════════════════════
+// PROGRESS
+// ══════════════════════════════════════════════
+function updateProgress() {
+  const total = 5; // sections
+  const pct = ((state.currentSection) / total) * 100 +
+    (state.currentQuestion / getQuestionCount(state.currentSection)) * (100 / total);
+  document.getElementById('test-progress-fill').style.width = pct + '%';
+}
+
+function getQuestionCount(sec) {
+  return [3, 3, 4, 3, 2][sec];
+}
+
+// ══════════════════════════════════════════════
+// TIMER
+// ══════════════════════════════════════════════
+function startTimer(seconds, onTick, onEnd) {
+  clearInterval(state.timerInterval);
+  let remaining = seconds;
+  const tick = () => {
+    const m = Math.floor(remaining / 60);
+    const s = remaining % 60;
+    document.getElementById('test-timer').textContent =
+      `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    onTick && onTick(remaining);
+    if (remaining-- <= 0) {
+      clearInterval(state.timerInterval);
+      onEnd && onEnd();
+    }
+  };
+  tick();
+  state.timerInterval = setInterval(tick, 1000);
+}
+
+function stopTimer() { clearInterval(state.timerInterval); }
+
+// ══════════════════════════════════════════════
+// RENDER QUESTION
+// ══════════════════════════════════════════════
+function renderQuestion(sec, qIdx) {
+  state.currentQuestion = qIdx;
+  state.questionStart = Date.now();
+  updateProgress();
+
+  const card = document.getElementById('q-card');
+  card.innerHTML = ''; // will be re-populated
+
+  switch(sec) {
+    case 0: renderMemory(qIdx); break;
+    case 1: renderAttention(qIdx); break;
+    case 2: renderLogic(qIdx); break;
+    case 3: renderSpeed(qIdx); break;
+    case 4: renderLearning(qIdx); break;
+  }
+}
+
+function nextQuestion() {
+  const sec = state.currentSection;
+  const next = state.currentQuestion + 1;
+  if (next < getQuestionCount(sec)) {
+    renderQuestion(sec, next);
+  } else {
+    stopTimer();
+    // Transition to next section or results
+    if (sec < 4) {
+      launchSection(sec + 1);
+    } else {
+      finishTest();
+    }
+  }
+}
+
+// ══════════════════════════════════════════════
+// MEMORY SECTION
+// ══════════════════════════════════════════════
+function renderMemory(qIdx) {
+  const seq = MEMORY_SEQUENCES[qIdx];
+  const card = document.getElementById('q-card');
+  card.innerHTML = `
+    <div class="q-meta">
+      <span class="q-num">Memory · ${qIdx+1} / ${MEMORY_SEQUENCES.length}</span>
+      <span class="q-points">+${(seq.length - 2) * 20} pts</span>
+    </div>
+    <div class="q-title">Remember the sequence</div>
+    <div class="q-desc">Study the numbers carefully. They'll disappear in 3 seconds.</div>
+    <div class="seq-display" id="seq-display">
+      ${seq.map(n => `<div class="seq-num show">${n}</div>`).join('')}
+    </div>
+    <div class="seq-input hide" id="seq-input">
+      <input type="text" class="number-input" id="mem-answer"
+        placeholder="Enter numbers separated by spaces"
+        maxlength="30" autocomplete="off">
+      <button class="btn-primary" id="mem-submit" onclick="submitMemory(${JSON.stringify(seq)})">
+        Submit Answer
+      </button>
+    </div>
+  `;
+
+  startTimer(15, null, () => {
+    document.getElementById('seq-input') && submitMemory(seq);
+  });
+
+  // Hide sequence after 3 sec
+  setTimeout(() => {
+    const disp = document.getElementById('seq-display');
+    const inp = document.getElementById('seq-input');
+    if (!disp || !inp) return;
+    disp.querySelectorAll('.seq-num').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'scale(0.8)';
+      el.style.transition = 'all 0.4s';
+    });
+    setTimeout(() => {
+      disp.classList.add('hide');
+      inp.classList.remove('hide');
+      document.getElementById('mem-answer').focus();
+    }, 500);
+  }, 3000);
+}
+
+function submitMemory(seq) {
+  stopTimer();
+  const input = document.getElementById('mem-answer');
+  if (!input) return;
+  const val = input.value.trim();
+  const userSeq = val.split(/[\s,]+/).map(Number).filter(n => !isNaN(n));
+  let correct = 0;
+  seq.forEach((n, i) => { if (userSeq[i] === n) correct++; });
+  const score = Math.round((correct / seq.length) * 100);
+  state.memoryScore += score;
+
+  // Feedback
+  input.disabled = true;
+  const submit = document.getElementById('mem-submit');
+  if (submit) submit.disabled = true;
+
+  // Show result briefly
+  const feedback = document.createElement('div');
+  feedback.style.cssText = 'text-align:center;padding:12px;border-radius:8px;margin-top:12px;font-family:DM Mono,monospace;font-size:13px;';
+  const pct = Math.round((correct / seq.length) * 100);
+  if (pct >= 80) {
+    feedback.style.background = 'rgba(106,247,162,0.1)';
+    feedback.style.color = 'var(--success)';
+    feedback.textContent = `✓ ${correct}/${seq.length} correct — great recall!`;
+  } else {
+    feedback.style.background = 'rgba(124,106,247,0.1)';
+    feedback.style.color = 'var(--accent)';
+    feedback.textContent = `${correct}/${seq.length} correct — sequence was: ${seq.join(' ')}`;
+  }
+  document.getElementById('q-card').appendChild(feedback);
+  setTimeout(nextQuestion, 1500);
+}
+
+// ══════════════════════════════════════════════
+// ATTENTION SECTION
+// ══════════════════════════════════════════════
+const SHAPES = ['🔵','🔴','🟡','🟢','🟠','🔷','🔶','⭐','❤️','🔸'];
+const TARGET_SHAPES = ['🔵','🔴','🟡'];
+
+function renderAttention(qIdx) {
+  const targets = [TARGET_SHAPES[qIdx]];
+  const count = 15 + qIdx * 5;
+  const grid = [];
+  for (let i = 0; i < count; i++) {
+    const isTarget = Math.random() < 0.3;
+    if (isTarget) {
+      grid.push(targets[0]);
+    } else {
+      const non = SHAPES.filter(s => !targets.includes(s));
+      grid.push(non[Math.floor(Math.random() * non.length)]);
+    }
+  }
+  const targetCount = grid.filter(s => s === targets[0]).length;
+
+  const card = document.getElementById('q-card');
+  card.innerHTML = `
+    <div class="q-meta">
+      <span class="q-num">Attention · ${qIdx+1} / 3</span>
+      <span class="q-points">Tap all ${targets[0]}</span>
+    </div>
+    <div class="q-title">Tap every <span style="font-size:24px">${targets[0]}</span></div>
+    <div class="q-desc">Ignore all other shapes. Find all ${targetCount} targets. Timer: 20s</div>
+    <div class="attn-grid" id="attn-grid">
+      ${grid.map((s,i) => `
+        <div class="attn-shape" 
+             style="background:rgba(255,255,255,0.04);"
+             data-idx="${i}" data-shape="${s}"
+             onclick="handleAttentionClick(this, '${targets[0]}')">
+          ${s}
+        </div>`).join('')}
+    </div>
+    <div style="font-family:DM Mono,monospace;font-size:12px;color:var(--muted);text-align:center" id="attn-score-live">
+      Hits: 0 / ${targetCount} · Wrong: 0
+    </div>
+  `;
+
+  let hits = 0, wrongs = 0;
+  card._attnState = { hits, wrongs, targetCount, target: targets[0] };
+
+  startTimer(20, null, () => {
+    const pct = Math.round((hits / Math.max(targetCount,1)) * 100) - wrongs * 10;
+    state.attentionScore += Math.max(0, Math.min(100, pct));
+    setTimeout(nextQuestion, 500);
+  });
+}
+
+function handleAttentionClick(el, target) {
+  if (el.classList.contains('hit') || el.classList.contains('miss')) return;
+  const card = document.getElementById('q-card');
+  const s = card._attnState;
+
+  if (el.dataset.shape === target) {
+    el.classList.add('hit');
+    s.hits++;
+  } else {
+    el.classList.add('miss');
+    s.wrongs++;
+    setTimeout(() => el.classList.remove('miss'), 400);
+  }
+
+  const lbl = document.getElementById('attn-score-live');
+  if (lbl) lbl.textContent = `Hits: ${s.hits} / ${s.targetCount} · Wrong: ${s.wrongs}`;
+
+  // If all found
+  if (s.hits >= s.targetCount) {
+    stopTimer();
+    const bonus = Math.max(0, 100 - s.wrongs * 10);
+    state.attentionScore += bonus;
+    const lbl2 = document.getElementById('attn-score-live');
+    if(lbl2) { lbl2.style.color = 'var(--success)'; lbl2.textContent = '✓ All targets found!'; }
+    setTimeout(nextQuestion, 1000);
+  }
+}
+
+// ══════════════════════════════════════════════
+// LOGIC SECTION
+// ══════════════════════════════════════════════
+function renderLogic(qIdx) {
+  const q = LOGIC_QUESTIONS[qIdx];
+  const card = document.getElementById('q-card');
+  card.innerHTML = `
+    <div class="q-meta">
+      <span class="q-num">Logic · ${qIdx+1} / ${LOGIC_QUESTIONS.length}</span>
+      <span class="q-points">+25 pts</span>
+    </div>
+    <div class="q-title">${q.q}</div>
+    <div class="q-desc">Select the best answer. 30 seconds per question.</div>
+    <div class="options" id="logic-opts">
+      ${q.options.map((o,i) => `
+        <div class="option" onclick="selectLogic(this, ${i}, ${q.answer})">
+          <div class="opt-letter">${['A','B','C','D'][i]}</div>
+          <span>${o}</span>
+        </div>`).join('')}
+    </div>
+  `;
+
+  startTimer(30, null, () => {
+    // Timeout — mark as wrong
+    state.logicScore += 0;
+    setTimeout(nextQuestion, 500);
+  });
+}
+
+function selectLogic(el, chosen, correct) {
+  stopTimer();
+  const opts = document.querySelectorAll('.option');
+  opts.forEach(o => {
+    o.style.pointerEvents = 'none';
+    o.style.opacity = '0.6';
+  });
+  if (chosen === correct) {
+    el.classList.add('correct');
+    el.style.opacity = '1';
+    state.logicScore += 100;
+  } else {
+    el.classList.add('wrong');
+    el.style.opacity = '1';
+    opts[correct].classList.add('correct');
+    opts[correct].style.opacity = '1';
+  }
+  setTimeout(nextQuestion, 1200);
+}
+
+// ══════════════════════════════════════════════
+// SPEED SECTION
+// ══════════════════════════════════════════════
+function renderSpeed(qIdx) {
+  const card = document.getElementById('q-card');
+  card.innerHTML = `
+    <div class="q-meta">
+      <span class="q-num">Speed · ${qIdx+1} / 3</span>
+      <span class="q-points">Reaction time</span>
+    </div>
+    <div class="q-title">Click when it turns green</div>
+    <div class="q-desc">Wait for the box to change colour, then click as fast as possible.</div>
+    <div class="speed-box waiting" id="speed-box" onclick="speedClick()">
+      Waiting…
+    </div>
+    <div class="speed-result" id="speed-result">Get ready — don't click yet!</div>
+  `;
+
+  document.getElementById('test-timer').textContent = '—:——';
+
+  // Random delay before go
+  card._speedState = { started: false, tooEarly: false, goTime: null };
+  const delay = 2000 + Math.random() * 3000;
+  card._speedTimeout = setTimeout(() => {
+    const box = document.getElementById('speed-box');
+    if (!box) return;
+    box.className = 'speed-box go';
+    box.textContent = 'CLICK NOW!';
+    card._speedState.goTime = Date.now();
+    card._speedState.started = true;
+    // Auto-fail after 3s
+    card._speedTimeout2 = setTimeout(() => {
+      state.speedScore += 0;
+      const res = document.getElementById('speed-result');
+      if(res) res.textContent = 'Too slow — moving on.';
+      setTimeout(nextQuestion, 800);
+    }, 3000);
+  }, delay);
+}
+
+function speedClick() {
+  const card = document.getElementById('q-card');
+  if (!card._speedState) return;
+  const { started, goTime } = card._speedState;
+  clearTimeout(card._speedTimeout);
+  clearTimeout(card._speedTimeout2);
+
+  const box = document.getElementById('speed-box');
+  const res = document.getElementById('speed-result');
+
+  if (!started) {
+    // Too early
+    box.className = 'speed-box too-early';
+    box.textContent = 'Too early!';
+    if(res) res.textContent = 'Wait for the green!';
+    state.speedScore += 10;
+    setTimeout(nextQuestion, 1200);
+  } else {
+    const rt = Date.now() - goTime;
+    // Score: 200ms = 100, 1000ms = 20
+    const score = Math.max(10, Math.round(100 - (rt - 200) / 8));
+    state.speedScore += Math.min(100, score);
+    box.className = 'speed-box';
+    box.style.borderColor = 'var(--accent2)';
+    box.textContent = `${rt}ms`;
+    const rating = rt < 300 ? '⚡ Lightning fast!' : rt < 500 ? '✓ Good reaction' : rt < 700 ? 'Average' : 'Slow — try again next time';
+    if(res) res.textContent = rating;
+    setTimeout(nextQuestion, 1200);
+  }
+}
+
+// ══════════════════════════════════════════════
+// LEARNING STYLE
+// ══════════════════════════════════════════════
+function renderLearning(qIdx) {
+  const q = LEARNING_QUESTIONS[qIdx];
+  const useVisual = Math.random() > 0.5;
+  const card = document.getElementById('q-card');
+  const qText = useVisual ? q.visual : q.text;
+
+  card.innerHTML = `
+    <div class="q-meta">
+      <span class="q-num">Learning Style · ${qIdx+1} / 2</span>
+      <span class="q-points">${useVisual ? '👁 Visual' : '📝 Text'}</span>
+    </div>
+    <div class="q-title">${qText}</div>
+    <div class="q-desc">Answer naturally. This measures how you process information.</div>
+    <div class="options" id="learn-opts">
+      ${q.options.map((o,i) => `
+        <div class="option" onclick="selectLearning(this, ${i}, ${q.answerIdx}, '${useVisual ? 'visual' : 'text'}', ${Date.now()})">
+          <div class="opt-letter">${['A','B','C','D'][i]}</div>
+          <span>${o}</span>
+        </div>`).join('')}
+    </div>
+  `;
+
+  startTimer(25, null, () => setTimeout(nextQuestion, 500));
+}
+
+function selectLearning(el, chosen, correct, style, startTime) {
+  stopTimer();
+  const rt = Date.now() - startTime;
+  const isCorrect = chosen === correct;
+
+  document.querySelectorAll('.option').forEach(o => o.style.pointerEvents = 'none');
+  if (isCorrect) {
+    el.classList.add('correct');
+    // Faster + correct = stronger signal
+    const bonus = isCorrect ? (rt < 5000 ? 2 : 1) : 0;
+    state.learningStyleScore[style] += bonus;
+  } else {
+    el.classList.add('wrong');
+  }
+
+  setTimeout(nextQuestion, 1000);
+}
+
+// ══════════════════════════════════════════════
+// FINISH TEST
+// ══════════════════════════════════════════════
+function finishTest() {
+  stopTimer();
+  state.totalTime = Math.round((Date.now() - state.testStartTime) / 1000);
+
+  // Normalize scores
+  const mem = Math.min(100, Math.round(state.memoryScore / 3));
+  const att = Math.min(100, Math.round(state.attentionScore / 3));
+  const log = Math.min(100, Math.round(state.logicScore / 4));
+  const spd = Math.min(100, Math.round(state.speedScore / 3));
+  const ls = state.learningStyleScore;
+  const lsStyle = ls.visual > ls.text ? 'visual' : ls.text > ls.visual ? 'text' : 'balanced';
+
+  const results = { mem, att, log, spd, lsStyle, totalTime: state.totalTime };
+  localStorage.setItem('cognitest_results', JSON.stringify(results));
+
+  // Ensure plan exists
+  if (!localStorage.getItem('cognitest_plan_progress')) {
+    const plan = generatePlan(results);
+    localStorage.setItem('cognitest_plan', JSON.stringify(plan));
+    localStorage.setItem('cognitest_plan_progress', JSON.stringify([]));
+  }
+
+  renderResults(results);
+  showPage('page-results');
+}
+
+// ══════════════════════════════════════════════
+// RESULTS RENDERER
+// ══════════════════════════════════════════════
+function renderResults(r) {
+  const { mem, att, log, spd, lsStyle } = r;
+  const overall = Math.round((mem * 0.25 + att * 0.25 + log * 0.3 + spd * 0.2));
+
+  // Ring
+  setTimeout(() => {
+    const fill = document.getElementById('ring-fill');
+    if (fill) {
+      const offset = 314 - (314 * overall / 100);
+      fill.style.strokeDashoffset = offset;
+      if (overall >= 75) fill.style.stroke = 'var(--success)';
+      else if (overall >= 50) fill.style.stroke = 'var(--accent)';
+      else fill.style.stroke = 'var(--accent2)';
+    }
+    document.getElementById('overall-score-num').textContent = overall;
+  }, 300);
+
+  // Headline
+  const grade = overall >= 80 ? 'Exceptional' : overall >= 65 ? 'Strong' : overall >= 50 ? 'Developing' : 'Emerging';
+  document.getElementById('score-headline').textContent = `${grade} Cognitive Profile`;
+  document.getElementById('score-subline').textContent =
+    `Overall score: ${overall}/100 · Test completed in ${Math.round(r.totalTime/60)} minutes`;
+
+  // Section bars
+  const sections = [
+    { name: 'Memory', score: mem, color: '#7c6af7' },
+    { name: 'Attention', score: att, color: '#f7a26a' },
+    { name: 'Logic', score: log, color: '#6af7c8' },
+    { name: 'Processing Speed', score: spd, color: '#f76a6a' },
+  ];
+  const barsEl = document.getElementById('score-bars');
+  barsEl.innerHTML = sections.map(s => `
+    <div class="score-bar-row">
+      <div class="score-bar-label">
+        <span class="lbl">${s.name}</span>
+        <span class="val">${s.score}/100</span>
+      </div>
+      <div class="score-bar-track">
+        <div class="score-bar-fill" style="background:${s.color}" data-width="${s.score}%"></div>
+      </div>
+    </div>
+  `).join('');
+
+  setTimeout(() => {
+    document.querySelectorAll('.score-bar-fill').forEach(el => {
+      el.style.width = el.dataset.width;
+    });
+  }, 300);
+
+  // Learning style
+  const styleNames = { visual: 'Visual Learner 👁', text: 'Verbal Learner 📝', balanced: 'Balanced Learner ⚖️' };
+  const styleDescs = {
+    visual: 'You process information most effectively through images, diagrams, and spatial relationships. Use mind maps, charts, and colour-coded notes.',
+    text: 'You excel with written and spoken information. Detailed notes, written summaries, and verbal explanations work best for you.',
+    balanced: 'You adapt well to both visual and verbal formats — a cognitive advantage for diverse learning environments.',
+  };
+  document.getElementById('learning-style-section').innerHTML = `
+    <div class="style-badge" style="background:rgba(124,106,247,0.1);border:1px solid rgba(124,106,247,0.2)">
+      ${styleNames[lsStyle]}
+    </div>
+    <p class="style-desc">${styleDescs[lsStyle]}</p>
+  `;
+
+  // Strengths & weaknesses
+  const scores = { Memory: mem, Attention: att, Logic: log, 'Processing Speed': spd };
+  const sorted = Object.entries(scores).sort((a,b) => b[1]-a[1]);
+  const swEl = document.getElementById('sw-section');
+  swEl.innerHTML = `
+    <div style="margin-bottom:16px">
+      <div style="font-size:12px;color:var(--success);font-family:DM Mono,monospace;letter-spacing:1px;margin-bottom:8px">STRENGTHS</div>
+      ${sorted.slice(0,2).map(([k,v]) => `
+        <div style="display:flex;justify-content:space-between;padding:10px;background:rgba(106,247,162,0.05);border:1px solid rgba(106,247,162,0.15);border-radius:8px;margin-bottom:6px;font-size:14px">
+          <span>${k}</span><span style="font-family:DM Mono,monospace;color:var(--success)">${v}</span>
+        </div>`).join('')}
+    </div>
+    <div>
+      <div style="font-size:12px;color:var(--accent2);font-family:DM Mono,monospace;letter-spacing:1px;margin-bottom:8px">GROWTH AREAS</div>
+      ${sorted.slice(-2).map(([k,v]) => `
+        <div style="display:flex;justify-content:space-between;padding:10px;background:rgba(247,162,106,0.05);border:1px solid rgba(247,162,106,0.15);border-radius:8px;margin-bottom:6px;font-size:14px">
+          <span>${k}</span><span style="font-family:DM Mono,monospace;color:var(--accent2)">${v}</span>
+        </div>`).join('')}
+    </div>
+  `;
+
+  // Insights
+  const insights = generateInsights({ mem, att, log, spd, lsStyle });
+  document.getElementById('insight-chips').innerHTML = insights.map(ins => `
+    <div class="insight-chip" style="background:${ins.bg};border:1px solid ${ins.border}">
+      <span class="chip-icon">${ins.icon}</span>
+      <span>${ins.text}</span>
+    </div>
+  `).join('');
+}
+
+function generateInsights({ mem, att, log, spd, lsStyle }) {
+  const ins = [];
+  if (spd >= 75) ins.push({ icon:'⚡', text:'Your processing speed is above average — you absorb and react to information quickly.', bg:'rgba(247,106,106,0.07)', border:'rgba(247,106,106,0.2)' });
+  if (mem >= 75) ins.push({ icon:'🧠', text:'Strong working memory allows you to hold and manipulate multiple pieces of information simultaneously.', bg:'rgba(124,106,247,0.07)', border:'rgba(124,106,247,0.2)' });
+  if (log >= 75) ins.push({ icon:'🔗', text:'Excellent logical reasoning — you identify patterns and solve novel problems with ease.', bg:'rgba(106,247,200,0.07)', border:'rgba(106,247,200,0.2)' });
+  if (att < 50) ins.push({ icon:'🎯', text:'Your sustained attention score suggests you may find it harder to maintain focus under distraction.', bg:'rgba(247,162,106,0.07)', border:'rgba(247,162,106,0.2)' });
+  if (mem < 50) ins.push({ icon:'📚', text:'Working memory capacity appears limited — chunking information and spaced repetition can help significantly.', bg:'rgba(247,162,106,0.07)', border:'rgba(247,162,106,0.2)' });
+  if (lsStyle === 'visual') ins.push({ icon:'👁', text:'As a visual learner, diagrams and mind maps will dramatically improve your retention rates.', bg:'rgba(106,247,162,0.07)', border:'rgba(106,247,162,0.2)' });
+  if (ins.length === 0) ins.push({ icon:'📊', text:'Your cognitive profile shows a balanced distribution across all tested domains.', bg:'rgba(124,106,247,0.07)', border:'rgba(124,106,247,0.2)' });
+  return ins;
+}
+
+// ══════════════════════════════════════════════
+// 30-DAY PLAN GENERATOR
+// ══════════════════════════════════════════════
+function generatePlan(results) {
+  const { mem, att, log, spd } = results;
+  const scores = { Memory: mem, Attention: att, Logic: log, Speed: spd };
+  const weakest = Object.entries(scores).sort((a,b) => a[1]-b[1])[0][0];
+
+  const plans = {
+    Memory: [
+      { week: 1, title: 'Foundation Building', subtitle: 'Establish core memory habits', tasks: [
+        'Digit span exercise: recall 4-digit sequences',
+        'Repeat yesterday\'s tasks from memory',
+        'Name 10 items in your room, cover and recall',
+        'Memory palace: place 5 objects on a mental route',
+        'Backward digit recall (3 digits)',
+        'Recall a conversation from yesterday in detail',
+        'Chunking exercise: memorise a 10-digit number in 3 chunks',
+      ]},
+      { week: 2, title: 'Capacity Expansion', subtitle: 'Push working memory limits', tasks: [
+        'Digit span: 5-digit sequences',
+        'N-back task: 1-back with 20 cards',
+        'Study a map for 60s, recreate it from memory',
+        'Memorise and recite a 4-line poem',
+        'Dual task: remember list while doing mental maths',
+        'Method of loci with 8 items',
+        'Delayed recall: read a paragraph, recall after 30 min',
+      ]},
+      { week: 3, title: 'Spaced Repetition', subtitle: 'Consolidate long-term encoding', tasks: [
+        'Recall last week\'s memory palace items',
+        'Learn 5 new facts and review after 24 hours',
+        'Digit span: 6-digit sequences',
+        'Memorise a 10-item shopping list without writing',
+        'Story method: link 10 random words into a narrative',
+        'Review the poem from Week 2 from memory',
+        'N-back: 2-back with 20 items',
+      ]},
+      { week: 4, title: 'Integration & Testing', subtitle: 'Apply memory in real scenarios', tasks: [
+        'Recall complete Week 1 memory palace',
+        'Memorise 10 people\'s names and one fact about each',
+        'Digit span: 7-digit target',
+        'Recall everything you did yesterday in order',
+        'Full dual-task challenge: 8 items + mental arithmetic',
+        'Retake the memory test and compare scores',
+        'Design your own memory challenge and beat it',
+      ]},
+    ],
+    Attention: [
+      { week: 1, title: 'Focus Foundation', subtitle: 'Build sustained attention basics', tasks: [
+        'Pomodoro: 15-min focused work with phone off',
+        'Spot the difference: 5-minute visual scan',
+        '5-minute breath-counting meditation',
+        'Read for 20 minutes with zero interruptions',
+        'Letter cancellation: cross out all As in a paragraph',
+        'Colour-word Stroop task (5 minutes)',
+        'Pomodoro: 20-minute deep focus session',
+      ]},
+      { week: 2, title: 'Distraction Resistance', subtitle: 'Focus despite interference', tasks: [
+        'Study in a noisy environment for 20 minutes',
+        'Dual attention: track two targets simultaneously',
+        'Listen to a podcast; recall 5 key points afterward',
+        'Complete a task with background TV on',
+        'Mindful eating: full attention on a 5-minute meal',
+        'Reaction time drill: click target shapes for 5 min',
+        'Pomodoro: 25-min session, log all distracting thoughts',
+      ]},
+      { week: 3, title: 'Sustained Vigilance', subtitle: 'Extend attention duration', tasks: [
+        '30-minute focused reading session',
+        'Count backwards from 300 by 3s without stopping',
+        'Track a moving object with eyes only for 5 minutes',
+        'Complete a 30-piece puzzle with no interruptions',
+        '10-minute body scan meditation',
+        'Sustained listening: summarise a 20-min podcast',
+        'Pomodoro: 30-min session, zero phone checks',
+      ]},
+      { week: 4, title: 'Peak Performance', subtitle: 'Attention mastery challenges', tasks: [
+        'Flow state challenge: 45-min deep work session',
+        'Competitive reaction time: beat your Week 1 score',
+        'Mindful observation: describe 20 details of one object',
+        'Read a complex article; write 3-paragraph summary',
+        'Selective attention drill: visual search for 10 min',
+        'Retrospective recall: list your day\'s events in order',
+        'Full retake of the attention test — track improvement',
+      ]},
+    ],
+    Logic: [
+      { week: 1, title: 'Pattern Foundations', subtitle: 'Build systematic thinking', tasks: [
+        'Number sequence puzzle (easy level)',
+        'Sudoku: beginner grid',
+        'Shape pattern completion: 5 sequences',
+        'Analogy pairs: 10 word analogies',
+        'Letter series: find the next 3 in the pattern',
+        'Odd-one-out: sets of 5 items',
+        'Matrix reasoning: 2x2 visual grids',
+      ]},
+      { week: 2, title: 'Abstract Reasoning', subtitle: 'Tackle non-verbal logic', tasks: [
+        'Visual matrix: 3x3 pattern grids',
+        'Syllogism practice: 10 logical arguments',
+        'Number series: medium difficulty',
+        'Spatial rotation: identify rotated shapes',
+        'Deductive reasoning puzzles (5 scenarios)',
+        'Sudoku: intermediate grid',
+        'Pattern analogy with shapes and colours',
+      ]},
+      { week: 3, title: 'Inductive Thinking', subtitle: 'Build reasoning from evidence', tasks: [
+        'Case study: read scenario, draw 3 conclusions',
+        'Number matrix: find missing value',
+        'Venn diagram problems: 5 exercises',
+        'Lateral thinking puzzles (3 problems)',
+        'Sudoku: advanced grid',
+        'Figure series: 5 complex visual sequences',
+        'Probability estimation: 10 real-world scenarios',
+      ]},
+      { week: 4, title: 'Complex Integration', subtitle: 'Logic under pressure', tasks: [
+        'Timed logic test: 15 questions in 10 minutes',
+        'Abstract reasoning battery: 20 matrices',
+        'Create your own logic puzzle and solve it',
+        'IQ-style sample test (free online)',
+        'Verbal reasoning: 10 critical argument problems',
+        'Speed logic: complete 10 syllogisms in 5 minutes',
+        'Retake the logic section and measure improvement',
+      ]},
+    ],
+    Speed: [
+      { week: 1, title: 'Neural Warmup', subtitle: 'Activate fast-twitch thinking', tasks: [
+        'Reaction time drill: 10 rounds on a free online tool',
+        'Mental arithmetic sprint: 20 additions in 60 seconds',
+        'Touch-typing practice: 5 minutes',
+        'Simple visual RT: click when screen changes',
+        'Rapid colour naming (Stroop warmup): 2 minutes',
+        'Quick decision making: 20 yes/no questions in 1 min',
+        'Reaction test benchmark and log result',
+      ]},
+      { week: 2, title: 'Speed Building', subtitle: 'Push processing limits', tasks: [
+        'Timed anagram solving: 10 in 5 minutes',
+        'Mental maths sprint: 30 multiplications in 2 min',
+        'Rapid fire word association: 60 words in 60 seconds',
+        'Speed reading: 1 page in under 90 seconds',
+        'Reaction drill with complex stimuli (multiple targets)',
+        'Typing speed test: aim for 5 WPM improvement',
+        'Beat your Day 7 reaction benchmark',
+      ]},
+      { week: 3, title: 'Cognitive Agility', subtitle: 'Switch fast, think faster', tasks: [
+        'Task switching drill: alternate between 2 mental tasks',
+        'Rapid symbol matching: 30 pairs in 60 seconds',
+        'Speed categorisation: sort 30 words by category quickly',
+        'Mental maths: mixed operations, 40 in 3 minutes',
+        'Reading comprehension sprint: 2 pages, summarise in 1',
+        'Dual-stimulus RT: respond to 2 different signals',
+        'Weekly benchmark: compare reaction to Week 1',
+      ]},
+      { week: 4, title: 'Speed Mastery', subtitle: 'Peak neural performance', tasks: [
+        'Full reaction time test: best of 5 rounds',
+        'Speed logic: 15 pattern questions in 8 minutes',
+        'Mental arithmetic tournament: 50 questions, 3 minutes',
+        'Speed reading: 3 pages, full recall quiz',
+        'Cognitive switching: 3-task rotation for 10 minutes',
+        'Personal record attempt: fastest RT score ever',
+        'Final benchmark — compare across all 4 weeks',
+      ]},
+    ],
+  };
+
+  const weekData = plans[weakest];
+  const days = [];
+  weekData.forEach((week, wi) => {
+    week.tasks.forEach((task, ti) => {
+      const dayNum = wi * 7 + ti + 1;
+      if (dayNum <= 30) {
+        days.push({
+          day: dayNum,
+          week: wi + 1,
+          weekTitle: week.title,
+          weekSubtitle: week.subtitle,
+          task,
+          duration: '10–15 min',
+        });
+      }
+    });
+    // Add 8th day per week (filler for day 8, 16, 24)
+    if (wi < 3) {
+      const dayNum = (wi + 1) * 7 + 1;
+      if (dayNum <= 30) {
+        days.push({
+          day: dayNum,
+          week: wi + 2,
+          weekTitle: weekData[wi+1].title,
+          weekSubtitle: weekData[wi+1].subtitle,
+          task: 'Rest & reflection: review what you\'ve learned this week',
+          duration: '5 min',
+        });
+      }
+    }
+  });
+
+  return { weakest, days: days.sort((a,b) => a.day - b.day).slice(0,30) };
+}
+
+// ══════════════════════════════════════════════
+// RENDER PLAN
+// ══════════════════════════════════════════════
+function renderPlan() {
+  const planData = JSON.parse(localStorage.getItem('cognitest_plan') || 'null');
+  const progress = JSON.parse(localStorage.getItem('cognitest_plan_progress') || '[]');
+  const results = JSON.parse(localStorage.getItem('cognitest_results') || 'null');
+
+  if (!planData || !results) {
+    document.getElementById('plan-weeks').innerHTML = '<p style="color:var(--muted)">Complete the assessment to unlock your plan.</p>';
+    return;
+  }
+
+  const completed = progress.length;
+  const pct = Math.round((completed / 30) * 100);
+
+  // Progress bar
+  document.getElementById('pbar-fill').style.width = pct + '%';
+  document.getElementById('pbar-label').textContent = `${completed} of 30 days completed`;
+  document.getElementById('pbar-pct').textContent = pct + '%';
+
+  // Streak
+  const streak = calculateStreak(progress);
+  document.getElementById('streak-area').innerHTML = streak > 0 ? `
+    <div class="streak-badge">🔥 ${streak}-day streak — keep it going!</div>
+  ` : '';
+
+  // Group days by week
+  const weeks = {};
+  planData.days.forEach(d => {
+    if (!weeks[d.week]) weeks[d.week] = { title: d.weekTitle, subtitle: d.weekSubtitle, days: [] };
+    weeks[d.week].days.push(d);
+  });
+
+  const weeksEl = document.getElementById('plan-weeks');
+  weeksEl.innerHTML = '';
+
+  // Header
+  const headerDiv = document.createElement('div');
+  headerDiv.style.cssText = 'margin-bottom:28px;padding:20px;background:rgba(124,106,247,0.05);border:1px solid rgba(124,106,247,0.15);border-radius:12px';
+  headerDiv.innerHTML = `
+    <div style="font-family:DM Mono,monospace;font-size:11px;color:var(--accent);letter-spacing:1px;margin-bottom:6px">TARGETING</div>
+    <div style="font-family:Syne,sans-serif;font-size:20px;font-weight:800">${planData.weakest} Training Plan</div>
+    <div style="font-size:13px;color:var(--muted);margin-top:4px">30 days of targeted exercises to strengthen your weakest cognitive domain</div>
+  `;
+  weeksEl.appendChild(headerDiv);
+
+  Object.entries(weeks).forEach(([wk, wdata]) => {
+    const weekDiv = document.createElement('div');
+    weekDiv.className = 'plan-week';
+    weekDiv.innerHTML = `
+      <div class="week-title">Week ${wk} — ${wdata.title}</div>
+      <div class="week-subtitle">${wdata.subtitle}</div>
+      <div class="plan-days">
+        ${wdata.days.map(d => {
+          const done = progress.includes(d.day);
+          return `
+            <div class="plan-day ${done ? 'completed' : ''}" onclick="toggleDay(${d.day})">
+              <div class="day-check">${done ? '✓' : ''}</div>
+              <div class="day-info">
+                <div class="day-num">DAY ${d.day}</div>
+                <div class="day-task">${d.task}</div>
+              </div>
+              <div class="day-time">${d.duration}</div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+    weeksEl.appendChild(weekDiv);
+  });
+}
+
+function toggleDay(dayNum) {
+  let progress = JSON.parse(localStorage.getItem('cognitest_plan_progress') || '[]');
+  const idx = progress.indexOf(dayNum);
+  if (idx > -1) {
+    progress.splice(idx, 1);
+  } else {
+    progress.push(dayNum);
+    // Track streak date
+    const today = new Date().toDateString();
+    let streakDates = JSON.parse(localStorage.getItem('cognitest_streak_dates') || '[]');
+    if (!streakDates.includes(today)) streakDates.push(today);
+    localStorage.setItem('cognitest_streak_dates', JSON.stringify(streakDates));
+  }
+  localStorage.setItem('cognitest_plan_progress', JSON.stringify(progress));
+  renderPlan();
+}
+
+function calculateStreak(progress) {
+  const dates = JSON.parse(localStorage.getItem('cognitest_streak_dates') || '[]');
+  if (dates.length === 0) return 0;
+  let streak = 0;
+  const today = new Date();
+  for (let i = 0; i < 30; i++) {
+    const d = new Date(today);
+    d.setDate(d.getDate() - i);
+    if (dates.includes(d.toDateString())) streak++;
+    else break;
+  }
+  return streak;
+}
+
+// ══════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loading-screen').style.opacity = '0';
+    document.getElementById('loading-screen').style.transition = 'opacity 0.5s';
+    setTimeout(() => document.getElementById('loading-screen').remove(), 500);
+
+    // Check if returning user
+    const saved = localStorage.getItem('cognitest_results');
+    if (saved) {
+      // Show resume option
+      const banner = document.createElement('div');
+      banner.style.cssText = `
+        position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
+        background:var(--surface); border:1px solid var(--border);
+        border-radius:12px; padding:14px 20px;
+        display:flex; align-items:center; gap:16px;
+        font-size:13px; color:var(--muted);
+        z-index:100; box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+        white-space: nowrap;
+      `;
+      banner.innerHTML = `
+        <span>Previous results found</span>
+        <button onclick="viewPreviousResults()" style="background:var(--accent);color:white;border:none;padding:6px 14px;border-radius:6px;font-size:12px;cursor:pointer;font-family:DM Mono,monospace">View Results</button>
+        <button onclick="this.parentElement.remove()" style="background:transparent;color:var(--muted);border:none;cursor:pointer;font-size:18px;line-height:1">×</button>
+      `;
+      document.body.appendChild(banner);
+    }
+  }, 1200);
+});
+
+function viewPreviousResults() {
+  const saved = JSON.parse(localStorage.getItem('cognitest_results'));
+  if (!saved) return;
+  // Ensure plan exists
+  if (!localStorage.getItem('cognitest_plan')) {
+    const plan = generatePlan(saved);
+    localStorage.setItem('cognitest_plan', JSON.stringify(plan));
+    localStorage.setItem('cognitest_plan_progress', JSON.stringify([]));
+  }
+  renderResults(saved);
+  showPage('page-results');
+  document.querySelector('[onclick*="viewPreviousResults"]')?.parentElement?.remove();
+}
+</script>
+</body>
+</html>
